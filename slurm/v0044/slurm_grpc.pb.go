@@ -38,7 +38,7 @@ type SlurmIndirectClient interface {
 	Ping(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PingResp, error)
 	GetDiag(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*DiagResp, error)
 	GetJob(ctx context.Context, in *JobIdReq, opts ...grpc.CallOption) (*JobIdResp, error)
-	GetJobs(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*JobsResp, error)
+	GetJobs(ctx context.Context, in *JobsReq, opts ...grpc.CallOption) (*JobsResp, error)
 	PostJobSubmit(ctx context.Context, in *JobSubmitReq, opts ...grpc.CallOption) (*JobSubmitResp, error)
 	DeleteJob(ctx context.Context, in *DeleteJobReq, opts ...grpc.CallOption) (*DeleteJobResp, error)
 	GetNodes(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*NodesResp, error)
@@ -84,7 +84,7 @@ func (c *slurmIndirectClient) GetJob(ctx context.Context, in *JobIdReq, opts ...
 	return out, nil
 }
 
-func (c *slurmIndirectClient) GetJobs(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*JobsResp, error) {
+func (c *slurmIndirectClient) GetJobs(ctx context.Context, in *JobsReq, opts ...grpc.CallOption) (*JobsResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(JobsResp)
 	err := c.cc.Invoke(ctx, SlurmIndirect_GetJobs_FullMethodName, in, out, cOpts...)
@@ -151,7 +151,7 @@ type SlurmIndirectServer interface {
 	Ping(context.Context, *emptypb.Empty) (*PingResp, error)
 	GetDiag(context.Context, *emptypb.Empty) (*DiagResp, error)
 	GetJob(context.Context, *JobIdReq) (*JobIdResp, error)
-	GetJobs(context.Context, *emptypb.Empty) (*JobsResp, error)
+	GetJobs(context.Context, *JobsReq) (*JobsResp, error)
 	PostJobSubmit(context.Context, *JobSubmitReq) (*JobSubmitResp, error)
 	DeleteJob(context.Context, *DeleteJobReq) (*DeleteJobResp, error)
 	GetNodes(context.Context, *emptypb.Empty) (*NodesResp, error)
@@ -176,7 +176,7 @@ func (UnimplementedSlurmIndirectServer) GetDiag(context.Context, *emptypb.Empty)
 func (UnimplementedSlurmIndirectServer) GetJob(context.Context, *JobIdReq) (*JobIdResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetJob not implemented")
 }
-func (UnimplementedSlurmIndirectServer) GetJobs(context.Context, *emptypb.Empty) (*JobsResp, error) {
+func (UnimplementedSlurmIndirectServer) GetJobs(context.Context, *JobsReq) (*JobsResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetJobs not implemented")
 }
 func (UnimplementedSlurmIndirectServer) PostJobSubmit(context.Context, *JobSubmitReq) (*JobSubmitResp, error) {
@@ -270,7 +270,7 @@ func _SlurmIndirect_GetJob_Handler(srv interface{}, ctx context.Context, dec fun
 }
 
 func _SlurmIndirect_GetJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(JobsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -282,7 +282,7 @@ func _SlurmIndirect_GetJobs_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: SlurmIndirect_GetJobs_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SlurmIndirectServer).GetJobs(ctx, req.(*emptypb.Empty))
+		return srv.(SlurmIndirectServer).GetJobs(ctx, req.(*JobsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

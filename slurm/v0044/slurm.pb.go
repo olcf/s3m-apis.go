@@ -1936,21 +1936,91 @@ func (x *DiagBFExit) GetStateChanged() int32 {
 	return 0
 }
 
+type JobsReq struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Filter by a comma-separated list of job names.
+	JobName *string `protobuf:"bytes,1,opt,name=job_name,json=jobName,proto3,oneof" json:"job_name,omitempty" validate:"omitempty,printascii,max=512"` // @gotags: validate:"omitempty,printascii,max=512"
+	// Filter by a comma-separated list of job states.
+	State *string `protobuf:"bytes,2,opt,name=state,proto3,oneof" json:"state,omitempty" validate:"omitempty,printascii,max=256"` // @gotags: validate:"omitempty,printascii,max=256"
+	// Limit usage results to this end time as a UNIX timestamp.
+	EndTime *string `protobuf:"bytes,3,opt,name=end_time,json=endTime,proto3,oneof" json:"end_time,omitempty" validate:"omitempty,numeric,gt=0,lt=11"` // @gotags: validate:"omitempty,numeric,gt=0,lt=11"
+	// Limit usage results to this start time as a UNIX timestamp.
+	StartTime     *string `protobuf:"bytes,4,opt,name=start_time,json=startTime,proto3,oneof" json:"start_time,omitempty" validate:"omitempty,numeric,gt=0,lt=11"` // @gotags: validate:"omitempty,numeric,gt=0,lt=11"
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JobsReq) Reset() {
+	*x = JobsReq{}
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JobsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JobsReq) ProtoMessage() {}
+
+func (x *JobsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JobsReq.ProtoReflect.Descriptor instead.
+func (*JobsReq) Descriptor() ([]byte, []int) {
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *JobsReq) GetJobName() string {
+	if x != nil && x.JobName != nil {
+		return *x.JobName
+	}
+	return ""
+}
+
+func (x *JobsReq) GetState() string {
+	if x != nil && x.State != nil {
+		return *x.State
+	}
+	return ""
+}
+
+func (x *JobsReq) GetEndTime() string {
+	if x != nil && x.EndTime != nil {
+		return *x.EndTime
+	}
+	return ""
+}
+
+func (x *JobsReq) GetStartTime() string {
+	if x != nil && x.StartTime != nil {
+		return *x.StartTime
+	}
+	return ""
+}
+
 type JobsResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Meta          *MetaResp              `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
-	Errors        []*ErrorResp           `protobuf:"bytes,2,rep,name=errors,proto3" json:"errors,omitempty"`
-	Warnings      []*WarningResp         `protobuf:"bytes,3,rep,name=warnings,proto3" json:"warnings,omitempty"`
-	Jobs          []*SlurmJobDescription `protobuf:"bytes,4,rep,name=jobs,proto3" json:"jobs,omitempty"`
-	LastBackfill  *Uint64NoVal           `protobuf:"bytes,5,opt,name=last_backfill,proto3" json:"last_backfill,omitempty"`
-	LastUpdate    *Uint64NoVal           `protobuf:"bytes,6,opt,name=last_update,proto3" json:"last_update,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Meta          *MetaResp                `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	Errors        []*ErrorResp             `protobuf:"bytes,2,rep,name=errors,proto3" json:"errors,omitempty"`
+	Warnings      []*WarningResp           `protobuf:"bytes,3,rep,name=warnings,proto3" json:"warnings,omitempty"`
+	Jobs          []*SlurmDBJobDescription `protobuf:"bytes,4,rep,name=jobs,proto3" json:"jobs,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *JobsResp) Reset() {
 	*x = JobsResp{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[24]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1962,7 +2032,7 @@ func (x *JobsResp) String() string {
 func (*JobsResp) ProtoMessage() {}
 
 func (x *JobsResp) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[24]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1975,7 +2045,7 @@ func (x *JobsResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JobsResp.ProtoReflect.Descriptor instead.
 func (*JobsResp) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{24}
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *JobsResp) GetMeta() *MetaResp {
@@ -1999,1061 +2069,11 @@ func (x *JobsResp) GetWarnings() []*WarningResp {
 	return nil
 }
 
-func (x *JobsResp) GetJobs() []*SlurmJobDescription {
+func (x *JobsResp) GetJobs() []*SlurmDBJobDescription {
 	if x != nil {
 		return x.Jobs
 	}
 	return nil
-}
-
-func (x *JobsResp) GetLastBackfill() *Uint64NoVal {
-	if x != nil {
-		return x.LastBackfill
-	}
-	return nil
-}
-
-func (x *JobsResp) GetLastUpdate() *Uint64NoVal {
-	if x != nil {
-		return x.LastUpdate
-	}
-	return nil
-}
-
-type SlurmJobDescription struct {
-	state                    protoimpl.MessageState         `protogen:"open.v1"`
-	Account                  string                         `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
-	AccrueTime               *Uint64NoVal                   `protobuf:"bytes,2,opt,name=accrue_time,proto3" json:"accrue_time,omitempty"`
-	AdminComment             string                         `protobuf:"bytes,3,opt,name=admin_comment,proto3" json:"admin_comment,omitempty"`
-	AllocatingNode           string                         `protobuf:"bytes,4,opt,name=allocating_node,proto3" json:"allocating_node,omitempty"`
-	ArrayJobId               *Uint32NoVal                   `protobuf:"bytes,5,opt,name=array_job_id,proto3" json:"array_job_id,omitempty"`
-	ArrayTaskId              *Uint32NoVal                   `protobuf:"bytes,6,opt,name=array_task_id,proto3" json:"array_task_id,omitempty"`
-	ArrayMaxTasks            *Uint32NoVal                   `protobuf:"bytes,7,opt,name=array_max_tasks,proto3" json:"array_max_tasks,omitempty"`
-	ArrayTaskString          string                         `protobuf:"bytes,8,opt,name=array_task_string,proto3" json:"array_task_string,omitempty"`
-	AssociationId            int32                          `protobuf:"varint,9,opt,name=association_id,proto3" json:"association_id,omitempty"`
-	BatchFeatures            string                         `protobuf:"bytes,10,opt,name=batch_features,proto3" json:"batch_features,omitempty"`
-	BatchFlag                bool                           `protobuf:"varint,11,opt,name=batch_flag,proto3" json:"batch_flag,omitempty"`
-	BatchHost                string                         `protobuf:"bytes,12,opt,name=batch_host,proto3" json:"batch_host,omitempty"`
-	Flags                    []string                       `protobuf:"bytes,13,rep,name=flags,proto3" json:"flags,omitempty"`
-	BurstBuffer              string                         `protobuf:"bytes,14,opt,name=burst_buffer,proto3" json:"burst_buffer,omitempty"`
-	BurstBufferState         string                         `protobuf:"bytes,15,opt,name=burst_buffer_state,proto3" json:"burst_buffer_state,omitempty"`
-	Cluster                  string                         `protobuf:"bytes,16,opt,name=cluster,proto3" json:"cluster,omitempty"`
-	ClusterFeatures          string                         `protobuf:"bytes,17,opt,name=cluster_features,proto3" json:"cluster_features,omitempty"`
-	Command                  string                         `protobuf:"bytes,18,opt,name=command,proto3" json:"command,omitempty"`
-	Comment                  string                         `protobuf:"bytes,19,opt,name=comment,proto3" json:"comment,omitempty"`
-	Container                string                         `protobuf:"bytes,20,opt,name=container,proto3" json:"container,omitempty"`
-	ContainerId              string                         `protobuf:"bytes,21,opt,name=container_id,proto3" json:"container_id,omitempty"`
-	Contiguous               bool                           `protobuf:"varint,22,opt,name=contiguous,proto3" json:"contiguous,omitempty"`
-	CoreSpec                 int32                          `protobuf:"varint,23,opt,name=core_spec,proto3" json:"core_spec,omitempty"`
-	ThreadSpec               int32                          `protobuf:"varint,24,opt,name=thread_spec,proto3" json:"thread_spec,omitempty"`
-	CoresPerSocket           *Uint32NoVal                   `protobuf:"bytes,25,opt,name=cores_per_socket,proto3" json:"cores_per_socket,omitempty"`
-	BillableTres             *Float64NoVal                  `protobuf:"bytes,26,opt,name=billable_tres,proto3" json:"billable_tres,omitempty"`
-	CpusPerTask              *Uint32NoVal                   `protobuf:"bytes,27,opt,name=cpus_per_task,proto3" json:"cpus_per_task,omitempty"`
-	CpuFrequencyMinimum      *Uint32NoVal                   `protobuf:"bytes,28,opt,name=cpu_frequency_minimum,proto3" json:"cpu_frequency_minimum,omitempty"`
-	CpuFrequencyMaximum      *Uint32NoVal                   `protobuf:"bytes,29,opt,name=cpu_frequency_maximum,proto3" json:"cpu_frequency_maximum,omitempty"`
-	CpuFrequencyGovernor     *Uint32NoVal                   `protobuf:"bytes,30,opt,name=cpu_frequency_governor,proto3" json:"cpu_frequency_governor,omitempty"`
-	CpusPerTres              string                         `protobuf:"bytes,31,opt,name=cpus_per_tres,proto3" json:"cpus_per_tres,omitempty"`
-	Cron                     string                         `protobuf:"bytes,32,opt,name=cron,proto3" json:"cron,omitempty"`
-	Deadline                 *Uint64NoVal                   `protobuf:"bytes,33,opt,name=deadline,proto3" json:"deadline,omitempty"`
-	DelayBoot                *Uint32NoVal                   `protobuf:"bytes,34,opt,name=delay_boot,proto3" json:"delay_boot,omitempty"`
-	Dependency               string                         `protobuf:"bytes,35,opt,name=dependency,proto3" json:"dependency,omitempty"`
-	DerivedExitCode          *ExitCode                      `protobuf:"bytes,36,opt,name=derived_exit_code,proto3" json:"derived_exit_code,omitempty"`
-	EligibleTime             *Uint64NoVal                   `protobuf:"bytes,37,opt,name=eligible_time,proto3" json:"eligible_time,omitempty"`
-	EndTime                  *Uint64NoVal                   `protobuf:"bytes,38,opt,name=end_time,proto3" json:"end_time,omitempty"`
-	ExcludedNodes            string                         `protobuf:"bytes,39,opt,name=excluded_nodes,proto3" json:"excluded_nodes,omitempty"`
-	ExitCode                 *ExitCode                      `protobuf:"bytes,40,opt,name=exit_code,proto3" json:"exit_code,omitempty"`
-	Extra                    string                         `protobuf:"bytes,41,opt,name=extra,proto3" json:"extra,omitempty"`
-	FailedNode               string                         `protobuf:"bytes,42,opt,name=failed_node,proto3" json:"failed_node,omitempty"`
-	Features                 string                         `protobuf:"bytes,43,opt,name=features,proto3" json:"features,omitempty"`
-	FederationOrigin         string                         `protobuf:"bytes,44,opt,name=federation_origin,proto3" json:"federation_origin,omitempty"`
-	FederationSiblingsActive string                         `protobuf:"bytes,45,opt,name=federation_siblings_active,proto3" json:"federation_siblings_active,omitempty"`
-	FederationSiblingsViable string                         `protobuf:"bytes,46,opt,name=federation_siblings_viable,proto3" json:"federation_siblings_viable,omitempty"`
-	GresDetail               []string                       `protobuf:"bytes,47,rep,name=gres_detail,proto3" json:"gres_detail,omitempty"`
-	GroupId                  uint32                         `protobuf:"varint,48,opt,name=group_id,proto3" json:"group_id,omitempty"`
-	GroupName                string                         `protobuf:"bytes,49,opt,name=group_name,proto3" json:"group_name,omitempty"`
-	HetJobId                 *Uint32NoVal                   `protobuf:"bytes,50,opt,name=het_job_id,proto3" json:"het_job_id,omitempty"`
-	HetJobIdSet              string                         `protobuf:"bytes,51,opt,name=het_job_id_set,proto3" json:"het_job_id_set,omitempty"`
-	HetJobOffset             *Uint32NoVal                   `protobuf:"bytes,52,opt,name=het_job_offset,proto3" json:"het_job_offset,omitempty"`
-	JobId                    uint32                         `protobuf:"varint,53,opt,name=job_id,proto3" json:"job_id,omitempty"`
-	JobResources             *SlurmJobDescription_Resources `protobuf:"bytes,54,opt,name=job_resources,proto3" json:"job_resources,omitempty"`
-	JobSizeStr               []string                       `protobuf:"bytes,55,rep,name=job_size_str,proto3" json:"job_size_str,omitempty"`
-	JobState                 []string                       `protobuf:"bytes,56,rep,name=job_state,proto3" json:"job_state,omitempty"`
-	LastSchedEvaluation      *Uint64NoVal                   `protobuf:"bytes,57,opt,name=last_sched_evaluation,proto3" json:"last_sched_evaluation,omitempty"`
-	Licenses                 string                         `protobuf:"bytes,58,opt,name=licenses,proto3" json:"licenses,omitempty"`
-	MailType                 []string                       `protobuf:"bytes,59,rep,name=mail_type,proto3" json:"mail_type,omitempty"`
-	MailUser                 string                         `protobuf:"bytes,60,opt,name=mail_user,proto3" json:"mail_user,omitempty"`
-	MaxCpus                  *Uint32NoVal                   `protobuf:"bytes,61,opt,name=max_cpus,proto3" json:"max_cpus,omitempty"`
-	MaxNodes                 *Uint32NoVal                   `protobuf:"bytes,62,opt,name=max_nodes,proto3" json:"max_nodes,omitempty"`
-	McsLabel                 string                         `protobuf:"bytes,63,opt,name=mcs_label,proto3" json:"mcs_label,omitempty"`
-	MemoryPerTres            string                         `protobuf:"bytes,64,opt,name=memory_per_tres,proto3" json:"memory_per_tres,omitempty"`
-	Name                     string                         `protobuf:"bytes,65,opt,name=name,proto3" json:"name,omitempty"`
-	Network                  string                         `protobuf:"bytes,66,opt,name=network,proto3" json:"network,omitempty"`
-	Nodes                    string                         `protobuf:"bytes,67,opt,name=nodes,proto3" json:"nodes,omitempty"`
-	Nice                     int32                          `protobuf:"varint,68,opt,name=nice,proto3" json:"nice,omitempty"`
-	TasksPerCore             *Uint32NoVal                   `protobuf:"bytes,69,opt,name=tasks_per_core,proto3" json:"tasks_per_core,omitempty"`
-	TasksPerTres             *Uint32NoVal                   `protobuf:"bytes,70,opt,name=tasks_per_tres,proto3" json:"tasks_per_tres,omitempty"`
-	TasksPerNode             *Uint32NoVal                   `protobuf:"bytes,71,opt,name=tasks_per_node,proto3" json:"tasks_per_node,omitempty"`
-	TasksPerSocket           *Uint32NoVal                   `protobuf:"bytes,72,opt,name=tasks_per_socket,proto3" json:"tasks_per_socket,omitempty"`
-	TasksPerBoard            *Uint32NoVal                   `protobuf:"bytes,73,opt,name=tasks_per_board,proto3" json:"tasks_per_board,omitempty"`
-	Cpus                     *Uint32NoVal                   `protobuf:"bytes,74,opt,name=cpus,proto3" json:"cpus,omitempty"`
-	NodeCount                *Uint32NoVal                   `protobuf:"bytes,75,opt,name=node_count,proto3" json:"node_count,omitempty"`
-	Tasks                    *Uint32NoVal                   `protobuf:"bytes,76,opt,name=tasks,proto3" json:"tasks,omitempty"`
-	Partition                string                         `protobuf:"bytes,77,opt,name=partition,proto3" json:"partition,omitempty"`
-	Prefer                   string                         `protobuf:"bytes,78,opt,name=prefer,proto3" json:"prefer,omitempty"`
-	MemoryPerCpu             *Uint64NoVal                   `protobuf:"bytes,79,opt,name=memory_per_cpu,proto3" json:"memory_per_cpu,omitempty"`
-	MemoryPerNode            *Uint64NoVal                   `protobuf:"bytes,80,opt,name=memory_per_node,proto3" json:"memory_per_node,omitempty"`
-	MinimumCpusPerNode       *Uint32NoVal                   `protobuf:"bytes,81,opt,name=minimum_cpus_per_node,proto3" json:"minimum_cpus_per_node,omitempty"`
-	MinimumTmpDiskPerNode    *Uint32NoVal                   `protobuf:"bytes,82,opt,name=minimum_tmp_disk_per_node,proto3" json:"minimum_tmp_disk_per_node,omitempty"`
-	PreemptTime              *Uint64NoVal                   `protobuf:"bytes,83,opt,name=preempt_time,proto3" json:"preempt_time,omitempty"`
-	PreemptableTime          *Uint64NoVal                   `protobuf:"bytes,84,opt,name=preemptable_time,proto3" json:"preemptable_time,omitempty"`
-	PreSusTime               *Uint64NoVal                   `protobuf:"bytes,85,opt,name=pre_sus_time,proto3" json:"pre_sus_time,omitempty"`
-	Hold                     bool                           `protobuf:"varint,86,opt,name=hold,proto3" json:"hold,omitempty"`
-	Priority                 *Uint32NoVal                   `protobuf:"bytes,87,opt,name=priority,proto3" json:"priority,omitempty"`
-	Profile                  []string                       `protobuf:"bytes,89,rep,name=profile,proto3" json:"profile,omitempty"`
-	Qos                      string                         `protobuf:"bytes,90,opt,name=qos,proto3" json:"qos,omitempty"`
-	Reboot                   bool                           `protobuf:"varint,91,opt,name=reboot,proto3" json:"reboot,omitempty"`
-	RequiredNodes            string                         `protobuf:"bytes,92,opt,name=required_nodes,proto3" json:"required_nodes,omitempty"`
-	RequiredSwitches         int32                          `protobuf:"varint,93,opt,name=required_switches,proto3" json:"required_switches,omitempty"`
-	Requeue                  bool                           `protobuf:"varint,94,opt,name=requeue,proto3" json:"requeue,omitempty"`
-	ResizeTime               *Uint64NoVal                   `protobuf:"bytes,95,opt,name=resize_time,proto3" json:"resize_time,omitempty"`
-	RestartCnt               int32                          `protobuf:"varint,96,opt,name=restart_cnt,proto3" json:"restart_cnt,omitempty"`
-	ResvName                 string                         `protobuf:"bytes,97,opt,name=resv_name,proto3" json:"resv_name,omitempty"`
-	ScheduledNodes           string                         `protobuf:"bytes,98,opt,name=scheduled_nodes,proto3" json:"scheduled_nodes,omitempty"`
-	SelinuxContext           string                         `protobuf:"bytes,99,opt,name=selinux_context,proto3" json:"selinux_context,omitempty"`
-	Shared                   []string                       `protobuf:"bytes,100,rep,name=shared,proto3" json:"shared,omitempty"`
-	SocketsPerBoard          int32                          `protobuf:"varint,101,opt,name=sockets_per_board,proto3" json:"sockets_per_board,omitempty"`
-	SocketsPerNode           *Uint32NoVal                   `protobuf:"bytes,102,opt,name=sockets_per_node,proto3" json:"sockets_per_node,omitempty"`
-	StartTime                *Uint64NoVal                   `protobuf:"bytes,103,opt,name=start_time,proto3" json:"start_time,omitempty"`
-	StateDescription         string                         `protobuf:"bytes,104,opt,name=state_description,proto3" json:"state_description,omitempty"`
-	StateReason              string                         `protobuf:"bytes,105,opt,name=state_reason,proto3" json:"state_reason,omitempty"`
-	StandardError            string                         `protobuf:"bytes,106,opt,name=standard_error,proto3" json:"standard_error,omitempty"`
-	StandardInput            string                         `protobuf:"bytes,107,opt,name=standard_input,proto3" json:"standard_input,omitempty"`
-	StandardOutput           string                         `protobuf:"bytes,108,opt,name=standard_output,proto3" json:"standard_output,omitempty"`
-	SubmitTime               *Uint64NoVal                   `protobuf:"bytes,109,opt,name=submit_time,proto3" json:"submit_time,omitempty"`
-	SuspendTime              *Uint64NoVal                   `protobuf:"bytes,110,opt,name=suspend_time,proto3" json:"suspend_time,omitempty"`
-	SystemComment            string                         `protobuf:"bytes,111,opt,name=system_comment,proto3" json:"system_comment,omitempty"`
-	TimeLimit                *Uint32NoVal                   `protobuf:"bytes,112,opt,name=time_limit,proto3" json:"time_limit,omitempty"`
-	TimeMinimum              *Uint32NoVal                   `protobuf:"bytes,113,opt,name=time_minimum,proto3" json:"time_minimum,omitempty"`
-	ThreadsPerCore           *Uint32NoVal                   `protobuf:"bytes,114,opt,name=threads_per_core,proto3" json:"threads_per_core,omitempty"`
-	TresBind                 string                         `protobuf:"bytes,115,opt,name=tres_bind,proto3" json:"tres_bind,omitempty"`
-	TresPerJob               string                         `protobuf:"bytes,116,opt,name=tres_per_job,proto3" json:"tres_per_job,omitempty"`
-	TresPerNode              string                         `protobuf:"bytes,117,opt,name=tres_per_node,proto3" json:"tres_per_node,omitempty"`
-	TresPerSocket            string                         `protobuf:"bytes,118,opt,name=tres_per_socket,proto3" json:"tres_per_socket,omitempty"`
-	TresPerTask              string                         `protobuf:"bytes,119,opt,name=tres_per_task,proto3" json:"tres_per_task,omitempty"`
-	TresReqStr               string                         `protobuf:"bytes,120,opt,name=tres_req_str,proto3" json:"tres_req_str,omitempty"`
-	TresAllocStr             string                         `protobuf:"bytes,121,opt,name=tres_alloc_str,proto3" json:"tres_alloc_str,omitempty"`
-	UserId                   uint32                         `protobuf:"varint,122,opt,name=user_id,proto3" json:"user_id,omitempty"`
-	UserName                 string                         `protobuf:"bytes,123,opt,name=user_name,proto3" json:"user_name,omitempty"`
-	MaximumSwitchWaitTime    int32                          `protobuf:"varint,124,opt,name=maximum_switch_wait_time,proto3" json:"maximum_switch_wait_time,omitempty"`
-	Wckey                    string                         `protobuf:"bytes,125,opt,name=wckey,proto3" json:"wckey,omitempty"`
-	CurrentWorkingDirectory  string                         `protobuf:"bytes,126,opt,name=current_working_directory,proto3" json:"current_working_directory,omitempty"`
-	unknownFields            protoimpl.UnknownFields
-	sizeCache                protoimpl.SizeCache
-}
-
-func (x *SlurmJobDescription) Reset() {
-	*x = SlurmJobDescription{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SlurmJobDescription) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SlurmJobDescription) ProtoMessage() {}
-
-func (x *SlurmJobDescription) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[25]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SlurmJobDescription.ProtoReflect.Descriptor instead.
-func (*SlurmJobDescription) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *SlurmJobDescription) GetAccount() string {
-	if x != nil {
-		return x.Account
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetAccrueTime() *Uint64NoVal {
-	if x != nil {
-		return x.AccrueTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetAdminComment() string {
-	if x != nil {
-		return x.AdminComment
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetAllocatingNode() string {
-	if x != nil {
-		return x.AllocatingNode
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetArrayJobId() *Uint32NoVal {
-	if x != nil {
-		return x.ArrayJobId
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetArrayTaskId() *Uint32NoVal {
-	if x != nil {
-		return x.ArrayTaskId
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetArrayMaxTasks() *Uint32NoVal {
-	if x != nil {
-		return x.ArrayMaxTasks
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetArrayTaskString() string {
-	if x != nil {
-		return x.ArrayTaskString
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetAssociationId() int32 {
-	if x != nil {
-		return x.AssociationId
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetBatchFeatures() string {
-	if x != nil {
-		return x.BatchFeatures
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetBatchFlag() bool {
-	if x != nil {
-		return x.BatchFlag
-	}
-	return false
-}
-
-func (x *SlurmJobDescription) GetBatchHost() string {
-	if x != nil {
-		return x.BatchHost
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetFlags() []string {
-	if x != nil {
-		return x.Flags
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetBurstBuffer() string {
-	if x != nil {
-		return x.BurstBuffer
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetBurstBufferState() string {
-	if x != nil {
-		return x.BurstBufferState
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetCluster() string {
-	if x != nil {
-		return x.Cluster
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetClusterFeatures() string {
-	if x != nil {
-		return x.ClusterFeatures
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetCommand() string {
-	if x != nil {
-		return x.Command
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetComment() string {
-	if x != nil {
-		return x.Comment
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetContainer() string {
-	if x != nil {
-		return x.Container
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetContainerId() string {
-	if x != nil {
-		return x.ContainerId
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetContiguous() bool {
-	if x != nil {
-		return x.Contiguous
-	}
-	return false
-}
-
-func (x *SlurmJobDescription) GetCoreSpec() int32 {
-	if x != nil {
-		return x.CoreSpec
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetThreadSpec() int32 {
-	if x != nil {
-		return x.ThreadSpec
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetCoresPerSocket() *Uint32NoVal {
-	if x != nil {
-		return x.CoresPerSocket
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetBillableTres() *Float64NoVal {
-	if x != nil {
-		return x.BillableTres
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetCpusPerTask() *Uint32NoVal {
-	if x != nil {
-		return x.CpusPerTask
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetCpuFrequencyMinimum() *Uint32NoVal {
-	if x != nil {
-		return x.CpuFrequencyMinimum
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetCpuFrequencyMaximum() *Uint32NoVal {
-	if x != nil {
-		return x.CpuFrequencyMaximum
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetCpuFrequencyGovernor() *Uint32NoVal {
-	if x != nil {
-		return x.CpuFrequencyGovernor
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetCpusPerTres() string {
-	if x != nil {
-		return x.CpusPerTres
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetCron() string {
-	if x != nil {
-		return x.Cron
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetDeadline() *Uint64NoVal {
-	if x != nil {
-		return x.Deadline
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetDelayBoot() *Uint32NoVal {
-	if x != nil {
-		return x.DelayBoot
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetDependency() string {
-	if x != nil {
-		return x.Dependency
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetDerivedExitCode() *ExitCode {
-	if x != nil {
-		return x.DerivedExitCode
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetEligibleTime() *Uint64NoVal {
-	if x != nil {
-		return x.EligibleTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetEndTime() *Uint64NoVal {
-	if x != nil {
-		return x.EndTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetExcludedNodes() string {
-	if x != nil {
-		return x.ExcludedNodes
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetExitCode() *ExitCode {
-	if x != nil {
-		return x.ExitCode
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetExtra() string {
-	if x != nil {
-		return x.Extra
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetFailedNode() string {
-	if x != nil {
-		return x.FailedNode
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetFeatures() string {
-	if x != nil {
-		return x.Features
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetFederationOrigin() string {
-	if x != nil {
-		return x.FederationOrigin
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetFederationSiblingsActive() string {
-	if x != nil {
-		return x.FederationSiblingsActive
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetFederationSiblingsViable() string {
-	if x != nil {
-		return x.FederationSiblingsViable
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetGresDetail() []string {
-	if x != nil {
-		return x.GresDetail
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetGroupId() uint32 {
-	if x != nil {
-		return x.GroupId
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetGroupName() string {
-	if x != nil {
-		return x.GroupName
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetHetJobId() *Uint32NoVal {
-	if x != nil {
-		return x.HetJobId
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetHetJobIdSet() string {
-	if x != nil {
-		return x.HetJobIdSet
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetHetJobOffset() *Uint32NoVal {
-	if x != nil {
-		return x.HetJobOffset
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetJobId() uint32 {
-	if x != nil {
-		return x.JobId
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetJobResources() *SlurmJobDescription_Resources {
-	if x != nil {
-		return x.JobResources
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetJobSizeStr() []string {
-	if x != nil {
-		return x.JobSizeStr
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetJobState() []string {
-	if x != nil {
-		return x.JobState
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetLastSchedEvaluation() *Uint64NoVal {
-	if x != nil {
-		return x.LastSchedEvaluation
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetLicenses() string {
-	if x != nil {
-		return x.Licenses
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetMailType() []string {
-	if x != nil {
-		return x.MailType
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetMailUser() string {
-	if x != nil {
-		return x.MailUser
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetMaxCpus() *Uint32NoVal {
-	if x != nil {
-		return x.MaxCpus
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetMaxNodes() *Uint32NoVal {
-	if x != nil {
-		return x.MaxNodes
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetMcsLabel() string {
-	if x != nil {
-		return x.McsLabel
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetMemoryPerTres() string {
-	if x != nil {
-		return x.MemoryPerTres
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetNetwork() string {
-	if x != nil {
-		return x.Network
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetNodes() string {
-	if x != nil {
-		return x.Nodes
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetNice() int32 {
-	if x != nil {
-		return x.Nice
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetTasksPerCore() *Uint32NoVal {
-	if x != nil {
-		return x.TasksPerCore
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetTasksPerTres() *Uint32NoVal {
-	if x != nil {
-		return x.TasksPerTres
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetTasksPerNode() *Uint32NoVal {
-	if x != nil {
-		return x.TasksPerNode
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetTasksPerSocket() *Uint32NoVal {
-	if x != nil {
-		return x.TasksPerSocket
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetTasksPerBoard() *Uint32NoVal {
-	if x != nil {
-		return x.TasksPerBoard
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetCpus() *Uint32NoVal {
-	if x != nil {
-		return x.Cpus
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetNodeCount() *Uint32NoVal {
-	if x != nil {
-		return x.NodeCount
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetTasks() *Uint32NoVal {
-	if x != nil {
-		return x.Tasks
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetPartition() string {
-	if x != nil {
-		return x.Partition
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetPrefer() string {
-	if x != nil {
-		return x.Prefer
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetMemoryPerCpu() *Uint64NoVal {
-	if x != nil {
-		return x.MemoryPerCpu
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetMemoryPerNode() *Uint64NoVal {
-	if x != nil {
-		return x.MemoryPerNode
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetMinimumCpusPerNode() *Uint32NoVal {
-	if x != nil {
-		return x.MinimumCpusPerNode
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetMinimumTmpDiskPerNode() *Uint32NoVal {
-	if x != nil {
-		return x.MinimumTmpDiskPerNode
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetPreemptTime() *Uint64NoVal {
-	if x != nil {
-		return x.PreemptTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetPreemptableTime() *Uint64NoVal {
-	if x != nil {
-		return x.PreemptableTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetPreSusTime() *Uint64NoVal {
-	if x != nil {
-		return x.PreSusTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetHold() bool {
-	if x != nil {
-		return x.Hold
-	}
-	return false
-}
-
-func (x *SlurmJobDescription) GetPriority() *Uint32NoVal {
-	if x != nil {
-		return x.Priority
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetProfile() []string {
-	if x != nil {
-		return x.Profile
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetQos() string {
-	if x != nil {
-		return x.Qos
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetReboot() bool {
-	if x != nil {
-		return x.Reboot
-	}
-	return false
-}
-
-func (x *SlurmJobDescription) GetRequiredNodes() string {
-	if x != nil {
-		return x.RequiredNodes
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetRequiredSwitches() int32 {
-	if x != nil {
-		return x.RequiredSwitches
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetRequeue() bool {
-	if x != nil {
-		return x.Requeue
-	}
-	return false
-}
-
-func (x *SlurmJobDescription) GetResizeTime() *Uint64NoVal {
-	if x != nil {
-		return x.ResizeTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetRestartCnt() int32 {
-	if x != nil {
-		return x.RestartCnt
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetResvName() string {
-	if x != nil {
-		return x.ResvName
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetScheduledNodes() string {
-	if x != nil {
-		return x.ScheduledNodes
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetSelinuxContext() string {
-	if x != nil {
-		return x.SelinuxContext
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetShared() []string {
-	if x != nil {
-		return x.Shared
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetSocketsPerBoard() int32 {
-	if x != nil {
-		return x.SocketsPerBoard
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetSocketsPerNode() *Uint32NoVal {
-	if x != nil {
-		return x.SocketsPerNode
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetStartTime() *Uint64NoVal {
-	if x != nil {
-		return x.StartTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetStateDescription() string {
-	if x != nil {
-		return x.StateDescription
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetStateReason() string {
-	if x != nil {
-		return x.StateReason
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetStandardError() string {
-	if x != nil {
-		return x.StandardError
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetStandardInput() string {
-	if x != nil {
-		return x.StandardInput
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetStandardOutput() string {
-	if x != nil {
-		return x.StandardOutput
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetSubmitTime() *Uint64NoVal {
-	if x != nil {
-		return x.SubmitTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetSuspendTime() *Uint64NoVal {
-	if x != nil {
-		return x.SuspendTime
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetSystemComment() string {
-	if x != nil {
-		return x.SystemComment
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetTimeLimit() *Uint32NoVal {
-	if x != nil {
-		return x.TimeLimit
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetTimeMinimum() *Uint32NoVal {
-	if x != nil {
-		return x.TimeMinimum
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetThreadsPerCore() *Uint32NoVal {
-	if x != nil {
-		return x.ThreadsPerCore
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription) GetTresBind() string {
-	if x != nil {
-		return x.TresBind
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetTresPerJob() string {
-	if x != nil {
-		return x.TresPerJob
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetTresPerNode() string {
-	if x != nil {
-		return x.TresPerNode
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetTresPerSocket() string {
-	if x != nil {
-		return x.TresPerSocket
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetTresPerTask() string {
-	if x != nil {
-		return x.TresPerTask
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetTresReqStr() string {
-	if x != nil {
-		return x.TresReqStr
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetTresAllocStr() string {
-	if x != nil {
-		return x.TresAllocStr
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetUserId() uint32 {
-	if x != nil {
-		return x.UserId
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetUserName() string {
-	if x != nil {
-		return x.UserName
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetMaximumSwitchWaitTime() int32 {
-	if x != nil {
-		return x.MaximumSwitchWaitTime
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription) GetWckey() string {
-	if x != nil {
-		return x.Wckey
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription) GetCurrentWorkingDirectory() string {
-	if x != nil {
-		return x.CurrentWorkingDirectory
-	}
-	return ""
 }
 
 type JobIdReq struct {
@@ -3210,6 +2230,7 @@ type SlurmDBJobDescription struct {
 	State            *SlurmDBJobDescription_State       `protobuf:"bytes,38,opt,name=state,proto3" json:"state,omitempty"`
 	Steps            []*SlurmDBJobDescription_Step      `protobuf:"bytes,39,rep,name=steps,proto3" json:"steps,omitempty"`
 	SubmitLine       string                             `protobuf:"bytes,40,opt,name=submit_line,proto3" json:"submit_line,omitempty"`
+	Tres             *SlurmDBJobDescription_TRES        `protobuf:"bytes,41,opt,name=tres,proto3" json:"tres,omitempty"`
 	UsedGres         string                             `protobuf:"bytes,42,opt,name=used_gres,proto3" json:"used_gres,omitempty"`
 	User             string                             `protobuf:"bytes,43,opt,name=user,proto3" json:"user,omitempty"`
 	WorkingDirectory string                             `protobuf:"bytes,45,opt,name=working_directory,proto3" json:"working_directory,omitempty"`
@@ -3525,6 +2546,13 @@ func (x *SlurmDBJobDescription) GetSubmitLine() string {
 		return x.SubmitLine
 	}
 	return ""
+}
+
+func (x *SlurmDBJobDescription) GetTres() *SlurmDBJobDescription_TRES {
+	if x != nil {
+		return x.Tres
+	}
+	return nil
 }
 
 func (x *SlurmDBJobDescription) GetUsedGres() string {
@@ -5068,142 +4096,6 @@ func (x *Reservation) GetUsers() string {
 	return ""
 }
 
-type SlurmJobDescription_Resources struct {
-	state          protoimpl.MessageState               `protogen:"open.v1"`
-	SelectType     []string                             `protobuf:"bytes,1,rep,name=select_type,proto3" json:"select_type,omitempty"`
-	Cpus           uint32                               `protobuf:"varint,2,opt,name=cpus,proto3" json:"cpus,omitempty"`
-	ThreadsPerCore *Uint32NoVal                         `protobuf:"bytes,3,opt,name=threads_per_core,proto3" json:"threads_per_core,omitempty"`
-	Nodes          *SlurmJobDescription_Resources_Nodes `protobuf:"bytes,4,opt,name=nodes,proto3" json:"nodes,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *SlurmJobDescription_Resources) Reset() {
-	*x = SlurmJobDescription_Resources{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[41]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SlurmJobDescription_Resources) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SlurmJobDescription_Resources) ProtoMessage() {}
-
-func (x *SlurmJobDescription_Resources) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[41]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SlurmJobDescription_Resources.ProtoReflect.Descriptor instead.
-func (*SlurmJobDescription_Resources) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{25, 0}
-}
-
-func (x *SlurmJobDescription_Resources) GetSelectType() []string {
-	if x != nil {
-		return x.SelectType
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription_Resources) GetCpus() uint32 {
-	if x != nil {
-		return x.Cpus
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription_Resources) GetThreadsPerCore() *Uint32NoVal {
-	if x != nil {
-		return x.ThreadsPerCore
-	}
-	return nil
-}
-
-func (x *SlurmJobDescription_Resources) GetNodes() *SlurmJobDescription_Resources_Nodes {
-	if x != nil {
-		return x.Nodes
-	}
-	return nil
-}
-
-type SlurmJobDescription_Resources_Nodes struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Count         int32                  `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
-	List          string                 `protobuf:"bytes,2,opt,name=list,proto3" json:"list,omitempty"`
-	Whole         bool                   `protobuf:"varint,3,opt,name=whole,proto3" json:"whole,omitempty"`
-	SelectType    []string               `protobuf:"bytes,4,rep,name=select_type,proto3" json:"select_type,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SlurmJobDescription_Resources_Nodes) Reset() {
-	*x = SlurmJobDescription_Resources_Nodes{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[42]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SlurmJobDescription_Resources_Nodes) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SlurmJobDescription_Resources_Nodes) ProtoMessage() {}
-
-func (x *SlurmJobDescription_Resources_Nodes) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[42]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SlurmJobDescription_Resources_Nodes.ProtoReflect.Descriptor instead.
-func (*SlurmJobDescription_Resources_Nodes) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{25, 0, 0}
-}
-
-func (x *SlurmJobDescription_Resources_Nodes) GetCount() int32 {
-	if x != nil {
-		return x.Count
-	}
-	return 0
-}
-
-func (x *SlurmJobDescription_Resources_Nodes) GetList() string {
-	if x != nil {
-		return x.List
-	}
-	return ""
-}
-
-func (x *SlurmJobDescription_Resources_Nodes) GetWhole() bool {
-	if x != nil {
-		return x.Whole
-	}
-	return false
-}
-
-func (x *SlurmJobDescription_Resources_Nodes) GetSelectType() []string {
-	if x != nil {
-		return x.SelectType
-	}
-	return nil
-}
-
 type SlurmDBJobDescription_Array struct {
 	state         protoimpl.MessageState              `protogen:"open.v1"`
 	JobId         int32                               `protobuf:"varint,1,opt,name=job_id,proto3" json:"job_id,omitempty"`
@@ -5216,7 +4108,7 @@ type SlurmDBJobDescription_Array struct {
 
 func (x *SlurmDBJobDescription_Array) Reset() {
 	*x = SlurmDBJobDescription_Array{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[43]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5228,7 +4120,7 @@ func (x *SlurmDBJobDescription_Array) String() string {
 func (*SlurmDBJobDescription_Array) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Array) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[43]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5285,7 +4177,7 @@ type SlurmDBJobDescription_Association struct {
 
 func (x *SlurmDBJobDescription_Association) Reset() {
 	*x = SlurmDBJobDescription_Association{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[44]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5297,7 +4189,7 @@ func (x *SlurmDBJobDescription_Association) String() string {
 func (*SlurmDBJobDescription_Association) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Association) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[44]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5359,7 +4251,7 @@ type SlurmDBJobDescription_Comment struct {
 
 func (x *SlurmDBJobDescription_Comment) Reset() {
 	*x = SlurmDBJobDescription_Comment{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[45]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5371,7 +4263,7 @@ func (x *SlurmDBJobDescription_Comment) String() string {
 func (*SlurmDBJobDescription_Comment) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Comment) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[45]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5418,7 +4310,7 @@ type SlurmDBJobDescription_HET struct {
 
 func (x *SlurmDBJobDescription_HET) Reset() {
 	*x = SlurmDBJobDescription_HET{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[46]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5430,7 +4322,7 @@ func (x *SlurmDBJobDescription_HET) String() string {
 func (*SlurmDBJobDescription_HET) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_HET) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[46]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5467,13 +4359,15 @@ type SlurmDBJobDescription_Time struct {
 	End           int64                  `protobuf:"varint,3,opt,name=end,proto3" json:"end,omitempty"`
 	Suspended     int32                  `protobuf:"varint,4,opt,name=suspended,proto3" json:"suspended,omitempty"`
 	Planned       *Uint64NoVal           `protobuf:"bytes,5,opt,name=planned,proto3" json:"planned,omitempty"`
+	Submission    int64                  `protobuf:"varint,6,opt,name=submission,proto3" json:"submission,omitempty"`
+	Limit         *Uint32NoVal           `protobuf:"bytes,7,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SlurmDBJobDescription_Time) Reset() {
 	*x = SlurmDBJobDescription_Time{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[47]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5485,7 +4379,7 @@ func (x *SlurmDBJobDescription_Time) String() string {
 func (*SlurmDBJobDescription_Time) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Time) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[47]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5536,6 +4430,20 @@ func (x *SlurmDBJobDescription_Time) GetPlanned() *Uint64NoVal {
 	return nil
 }
 
+func (x *SlurmDBJobDescription_Time) GetSubmission() int64 {
+	if x != nil {
+		return x.Submission
+	}
+	return 0
+}
+
+func (x *SlurmDBJobDescription_Time) GetLimit() *Uint32NoVal {
+	if x != nil {
+		return x.Limit
+	}
+	return nil
+}
+
 type SlurmDBJobDescription_Required struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CPUs          int32                  `protobuf:"varint,1,opt,name=CPUs,proto3" json:"CPUs,omitempty"`
@@ -5547,7 +4455,7 @@ type SlurmDBJobDescription_Required struct {
 
 func (x *SlurmDBJobDescription_Required) Reset() {
 	*x = SlurmDBJobDescription_Required{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[48]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5559,7 +4467,7 @@ func (x *SlurmDBJobDescription_Required) String() string {
 func (*SlurmDBJobDescription_Required) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Required) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[48]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5606,7 +4514,7 @@ type SlurmDBJobDescription_Reservation struct {
 
 func (x *SlurmDBJobDescription_Reservation) Reset() {
 	*x = SlurmDBJobDescription_Reservation{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[49]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5618,7 +4526,7 @@ func (x *SlurmDBJobDescription_Reservation) String() string {
 func (*SlurmDBJobDescription_Reservation) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Reservation) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[49]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5658,7 +4566,7 @@ type SlurmDBJobDescription_State struct {
 
 func (x *SlurmDBJobDescription_State) Reset() {
 	*x = SlurmDBJobDescription_State{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[50]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5670,7 +4578,7 @@ func (x *SlurmDBJobDescription_State) String() string {
 func (*SlurmDBJobDescription_State) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_State) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[50]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5700,6 +4608,58 @@ func (x *SlurmDBJobDescription_State) GetReason() string {
 	return ""
 }
 
+type SlurmDBJobDescription_TRES struct {
+	state         protoimpl.MessageState                 `protogen:"open.v1"`
+	Allocated     []*SlurmDBJobDescription_TRES_Resource `protobuf:"bytes,1,rep,name=allocated,proto3" json:"allocated,omitempty"`
+	Requested     []*SlurmDBJobDescription_TRES_Resource `protobuf:"bytes,2,rep,name=requested,proto3" json:"requested,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SlurmDBJobDescription_TRES) Reset() {
+	*x = SlurmDBJobDescription_TRES{}
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SlurmDBJobDescription_TRES) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SlurmDBJobDescription_TRES) ProtoMessage() {}
+
+func (x *SlurmDBJobDescription_TRES) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SlurmDBJobDescription_TRES.ProtoReflect.Descriptor instead.
+func (*SlurmDBJobDescription_TRES) Descriptor() ([]byte, []int) {
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8}
+}
+
+func (x *SlurmDBJobDescription_TRES) GetAllocated() []*SlurmDBJobDescription_TRES_Resource {
+	if x != nil {
+		return x.Allocated
+	}
+	return nil
+}
+
+func (x *SlurmDBJobDescription_TRES) GetRequested() []*SlurmDBJobDescription_TRES_Resource {
+	if x != nil {
+		return x.Requested
+	}
+	return nil
+}
+
 type SlurmDBJobDescription_Step struct {
 	state           protoimpl.MessageState               `protogen:"open.v1"`
 	Time            *SlurmDBJobDescription_Step_StepTime `protobuf:"bytes,1,opt,name=time,proto3" json:"time,omitempty"`
@@ -5717,7 +4677,7 @@ type SlurmDBJobDescription_Step struct {
 
 func (x *SlurmDBJobDescription_Step) Reset() {
 	*x = SlurmDBJobDescription_Step{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[51]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5729,7 +4689,7 @@ func (x *SlurmDBJobDescription_Step) String() string {
 func (*SlurmDBJobDescription_Step) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Step) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[51]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5742,7 +4702,7 @@ func (x *SlurmDBJobDescription_Step) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SlurmDBJobDescription_Step.ProtoReflect.Descriptor instead.
 func (*SlurmDBJobDescription_Step) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8}
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 9}
 }
 
 func (x *SlurmDBJobDescription_Step) GetTime() *SlurmDBJobDescription_Step_StepTime {
@@ -5817,7 +4777,7 @@ type SlurmDBJobDescription_Array_Limits struct {
 
 func (x *SlurmDBJobDescription_Array_Limits) Reset() {
 	*x = SlurmDBJobDescription_Array_Limits{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[52]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5829,7 +4789,7 @@ func (x *SlurmDBJobDescription_Array_Limits) String() string {
 func (*SlurmDBJobDescription_Array_Limits) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Array_Limits) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[52]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5861,7 +4821,7 @@ type SlurmDBJobDescription_Array_Limits_Max struct {
 
 func (x *SlurmDBJobDescription_Array_Limits_Max) Reset() {
 	*x = SlurmDBJobDescription_Array_Limits_Max{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[53]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[52]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5873,7 +4833,7 @@ func (x *SlurmDBJobDescription_Array_Limits_Max) String() string {
 func (*SlurmDBJobDescription_Array_Limits_Max) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Array_Limits_Max) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[53]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[52]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5905,7 +4865,7 @@ type SlurmDBJobDescription_Array_Limits_Max_Running struct {
 
 func (x *SlurmDBJobDescription_Array_Limits_Max_Running) Reset() {
 	*x = SlurmDBJobDescription_Array_Limits_Max_Running{}
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[54]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5917,7 +4877,7 @@ func (x *SlurmDBJobDescription_Array_Limits_Max_Running) String() string {
 func (*SlurmDBJobDescription_Array_Limits_Max_Running) ProtoMessage() {}
 
 func (x *SlurmDBJobDescription_Array_Limits_Max_Running) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[54]
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5936,6 +4896,74 @@ func (*SlurmDBJobDescription_Array_Limits_Max_Running) Descriptor() ([]byte, []i
 func (x *SlurmDBJobDescription_Array_Limits_Max_Running) GetTasks() int32 {
 	if x != nil {
 		return x.Tasks
+	}
+	return 0
+}
+
+type SlurmDBJobDescription_TRES_Resource struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Id            int32                  `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
+	Count         int64                  `protobuf:"varint,4,opt,name=count,proto3" json:"count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SlurmDBJobDescription_TRES_Resource) Reset() {
+	*x = SlurmDBJobDescription_TRES_Resource{}
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[54]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SlurmDBJobDescription_TRES_Resource) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SlurmDBJobDescription_TRES_Resource) ProtoMessage() {}
+
+func (x *SlurmDBJobDescription_TRES_Resource) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_slurm_v0044_slurm_proto_msgTypes[54]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SlurmDBJobDescription_TRES_Resource.ProtoReflect.Descriptor instead.
+func (*SlurmDBJobDescription_TRES_Resource) Descriptor() ([]byte, []int) {
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8, 0}
+}
+
+func (x *SlurmDBJobDescription_TRES_Resource) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *SlurmDBJobDescription_TRES_Resource) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SlurmDBJobDescription_TRES_Resource) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *SlurmDBJobDescription_TRES_Resource) GetCount() int64 {
+	if x != nil {
+		return x.Count
 	}
 	return 0
 }
@@ -5976,7 +5004,7 @@ func (x *SlurmDBJobDescription_Step_Nodes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SlurmDBJobDescription_Step_Nodes.ProtoReflect.Descriptor instead.
 func (*SlurmDBJobDescription_Step_Nodes) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8, 0}
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 9, 0}
 }
 
 func (x *SlurmDBJobDescription_Step_Nodes) GetCount() int32 {
@@ -6034,7 +5062,7 @@ func (x *SlurmDBJobDescription_Step_Tasks) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SlurmDBJobDescription_Step_Tasks.ProtoReflect.Descriptor instead.
 func (*SlurmDBJobDescription_Step_Tasks) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8, 1}
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 9, 1}
 }
 
 func (x *SlurmDBJobDescription_Step_Tasks) GetCount() int32 {
@@ -6079,7 +5107,7 @@ func (x *SlurmDBJobDescription_Step_CPU) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SlurmDBJobDescription_Step_CPU.ProtoReflect.Descriptor instead.
 func (*SlurmDBJobDescription_Step_CPU) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8, 2}
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 9, 2}
 }
 
 func (x *SlurmDBJobDescription_Step_CPU) GetRequestedFrequency() *SlurmDBJobDescription_Step_CPU_RequestedFrequency {
@@ -6131,7 +5159,7 @@ func (x *SlurmDBJobDescription_Step_StepInfo) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use SlurmDBJobDescription_Step_StepInfo.ProtoReflect.Descriptor instead.
 func (*SlurmDBJobDescription_Step_StepInfo) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8, 3}
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 9, 3}
 }
 
 func (x *SlurmDBJobDescription_Step_StepInfo) GetId() string {
@@ -6182,7 +5210,7 @@ func (x *SlurmDBJobDescription_Step_Task) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SlurmDBJobDescription_Step_Task.ProtoReflect.Descriptor instead.
 func (*SlurmDBJobDescription_Step_Task) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8, 4}
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 9, 4}
 }
 
 func (x *SlurmDBJobDescription_Step_Task) GetDistribution() string {
@@ -6229,7 +5257,7 @@ func (x *SlurmDBJobDescription_Step_StepTime) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use SlurmDBJobDescription_Step_StepTime.ProtoReflect.Descriptor instead.
 func (*SlurmDBJobDescription_Step_StepTime) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8, 5}
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 9, 5}
 }
 
 func (x *SlurmDBJobDescription_Step_StepTime) GetElapsed() int32 {
@@ -6295,7 +5323,7 @@ func (x *SlurmDBJobDescription_Step_CPU_RequestedFrequency) ProtoReflect() proto
 
 // Deprecated: Use SlurmDBJobDescription_Step_CPU_RequestedFrequency.ProtoReflect.Descriptor instead.
 func (*SlurmDBJobDescription_Step_CPU_RequestedFrequency) Descriptor() ([]byte, []int) {
-	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 8, 2, 0}
+	return file_proto_slurm_v0044_slurm_proto_rawDescGZIP(), []int{28, 9, 2, 0}
 }
 
 func (x *SlurmDBJobDescription_Step_CPU_RequestedFrequency) GetMin() *Uint32NoVal {
@@ -8139,178 +7167,29 @@ const file_proto_slurm_v0044_slurm_proto_rawDesc = "" +
 	"\x0fbf_max_job_test\x18\x03 \x01(\x05R\x0fbf_max_job_test\x12 \n" +
 	"\vbf_max_time\x18\x04 \x01(\x05R\vbf_max_time\x12.\n" +
 	"\x12bf_node_space_size\x18\x05 \x01(\x05R\x12bf_node_space_size\x12$\n" +
-	"\rstate_changed\x18\x06 \x01(\x05R\rstate_changed\"\x83\x03\n" +
+	"\rstate_changed\x18\x06 \x01(\x05R\rstate_changed\"\xbb\x01\n" +
+	"\aJobsReq\x12\x1e\n" +
+	"\bjob_name\x18\x01 \x01(\tH\x00R\ajobName\x88\x01\x01\x12\x19\n" +
+	"\x05state\x18\x02 \x01(\tH\x01R\x05state\x88\x01\x01\x12\x1e\n" +
+	"\bend_time\x18\x03 \x01(\tH\x02R\aendTime\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"start_time\x18\x04 \x01(\tH\x03R\tstartTime\x88\x01\x01B\v\n" +
+	"\t_job_nameB\b\n" +
+	"\x06_stateB\v\n" +
+	"\t_end_timeB\r\n" +
+	"\v_start_time\"\xf7\x01\n" +
 	"\bJobsResp\x122\n" +
 	"\x04meta\x18\x01 \x01(\v2\x1e.olcf.s3m.slurm.v0044.MetaRespR\x04meta\x127\n" +
 	"\x06errors\x18\x02 \x03(\v2\x1f.olcf.s3m.slurm.v0044.ErrorRespR\x06errors\x12=\n" +
-	"\bwarnings\x18\x03 \x03(\v2!.olcf.s3m.slurm.v0044.WarningRespR\bwarnings\x12=\n" +
-	"\x04jobs\x18\x04 \x03(\v2).olcf.s3m.slurm.v0044.SlurmJobDescriptionR\x04jobs\x12G\n" +
-	"\rlast_backfill\x18\x05 \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\rlast_backfill\x12C\n" +
-	"\vlast_update\x18\x06 \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\vlast_update\"\xc92\n" +
-	"\x13SlurmJobDescription\x12\x18\n" +
-	"\aaccount\x18\x01 \x01(\tR\aaccount\x12C\n" +
-	"\vaccrue_time\x18\x02 \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\vaccrue_time\x12$\n" +
-	"\radmin_comment\x18\x03 \x01(\tR\radmin_comment\x12(\n" +
-	"\x0fallocating_node\x18\x04 \x01(\tR\x0fallocating_node\x12E\n" +
-	"\farray_job_id\x18\x05 \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\farray_job_id\x12G\n" +
-	"\rarray_task_id\x18\x06 \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\rarray_task_id\x12K\n" +
-	"\x0farray_max_tasks\x18\a \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x0farray_max_tasks\x12,\n" +
-	"\x11array_task_string\x18\b \x01(\tR\x11array_task_string\x12&\n" +
-	"\x0eassociation_id\x18\t \x01(\x05R\x0eassociation_id\x12&\n" +
-	"\x0ebatch_features\x18\n" +
-	" \x01(\tR\x0ebatch_features\x12\x1e\n" +
-	"\n" +
-	"batch_flag\x18\v \x01(\bR\n" +
-	"batch_flag\x12\x1e\n" +
-	"\n" +
-	"batch_host\x18\f \x01(\tR\n" +
-	"batch_host\x12\x14\n" +
-	"\x05flags\x18\r \x03(\tR\x05flags\x12\"\n" +
-	"\fburst_buffer\x18\x0e \x01(\tR\fburst_buffer\x12.\n" +
-	"\x12burst_buffer_state\x18\x0f \x01(\tR\x12burst_buffer_state\x12\x18\n" +
-	"\acluster\x18\x10 \x01(\tR\acluster\x12*\n" +
-	"\x10cluster_features\x18\x11 \x01(\tR\x10cluster_features\x12\x18\n" +
-	"\acommand\x18\x12 \x01(\tR\acommand\x12\x18\n" +
-	"\acomment\x18\x13 \x01(\tR\acomment\x12\x1c\n" +
-	"\tcontainer\x18\x14 \x01(\tR\tcontainer\x12\"\n" +
-	"\fcontainer_id\x18\x15 \x01(\tR\fcontainer_id\x12\x1e\n" +
-	"\n" +
-	"contiguous\x18\x16 \x01(\bR\n" +
-	"contiguous\x12\x1c\n" +
-	"\tcore_spec\x18\x17 \x01(\x05R\tcore_spec\x12 \n" +
-	"\vthread_spec\x18\x18 \x01(\x05R\vthread_spec\x12M\n" +
-	"\x10cores_per_socket\x18\x19 \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x10cores_per_socket\x12H\n" +
-	"\rbillable_tres\x18\x1a \x01(\v2\".olcf.s3m.slurm.v0044.Float64NoValR\rbillable_tres\x12G\n" +
-	"\rcpus_per_task\x18\x1b \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\rcpus_per_task\x12W\n" +
-	"\x15cpu_frequency_minimum\x18\x1c \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x15cpu_frequency_minimum\x12W\n" +
-	"\x15cpu_frequency_maximum\x18\x1d \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x15cpu_frequency_maximum\x12Y\n" +
-	"\x16cpu_frequency_governor\x18\x1e \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x16cpu_frequency_governor\x12$\n" +
-	"\rcpus_per_tres\x18\x1f \x01(\tR\rcpus_per_tres\x12\x12\n" +
-	"\x04cron\x18  \x01(\tR\x04cron\x12=\n" +
-	"\bdeadline\x18! \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\bdeadline\x12A\n" +
-	"\n" +
-	"delay_boot\x18\" \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\n" +
-	"delay_boot\x12\x1e\n" +
-	"\n" +
-	"dependency\x18# \x01(\tR\n" +
-	"dependency\x12L\n" +
-	"\x11derived_exit_code\x18$ \x01(\v2\x1e.olcf.s3m.slurm.v0044.ExitCodeR\x11derived_exit_code\x12G\n" +
-	"\religible_time\x18% \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\religible_time\x12=\n" +
-	"\bend_time\x18& \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\bend_time\x12&\n" +
-	"\x0eexcluded_nodes\x18' \x01(\tR\x0eexcluded_nodes\x12<\n" +
-	"\texit_code\x18( \x01(\v2\x1e.olcf.s3m.slurm.v0044.ExitCodeR\texit_code\x12\x14\n" +
-	"\x05extra\x18) \x01(\tR\x05extra\x12 \n" +
-	"\vfailed_node\x18* \x01(\tR\vfailed_node\x12\x1a\n" +
-	"\bfeatures\x18+ \x01(\tR\bfeatures\x12,\n" +
-	"\x11federation_origin\x18, \x01(\tR\x11federation_origin\x12>\n" +
-	"\x1afederation_siblings_active\x18- \x01(\tR\x1afederation_siblings_active\x12>\n" +
-	"\x1afederation_siblings_viable\x18. \x01(\tR\x1afederation_siblings_viable\x12 \n" +
-	"\vgres_detail\x18/ \x03(\tR\vgres_detail\x12\x1a\n" +
-	"\bgroup_id\x180 \x01(\rR\bgroup_id\x12\x1e\n" +
-	"\n" +
-	"group_name\x181 \x01(\tR\n" +
-	"group_name\x12A\n" +
-	"\n" +
-	"het_job_id\x182 \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\n" +
-	"het_job_id\x12&\n" +
-	"\x0ehet_job_id_set\x183 \x01(\tR\x0ehet_job_id_set\x12I\n" +
-	"\x0ehet_job_offset\x184 \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x0ehet_job_offset\x12\x16\n" +
-	"\x06job_id\x185 \x01(\rR\x06job_id\x12Y\n" +
-	"\rjob_resources\x186 \x01(\v23.olcf.s3m.slurm.v0044.SlurmJobDescription.ResourcesR\rjob_resources\x12\"\n" +
-	"\fjob_size_str\x187 \x03(\tR\fjob_size_str\x12\x1c\n" +
-	"\tjob_state\x188 \x03(\tR\tjob_state\x12W\n" +
-	"\x15last_sched_evaluation\x189 \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\x15last_sched_evaluation\x12\x1a\n" +
-	"\blicenses\x18: \x01(\tR\blicenses\x12\x1c\n" +
-	"\tmail_type\x18; \x03(\tR\tmail_type\x12\x1c\n" +
-	"\tmail_user\x18< \x01(\tR\tmail_user\x12=\n" +
-	"\bmax_cpus\x18= \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\bmax_cpus\x12?\n" +
-	"\tmax_nodes\x18> \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\tmax_nodes\x12\x1c\n" +
-	"\tmcs_label\x18? \x01(\tR\tmcs_label\x12(\n" +
-	"\x0fmemory_per_tres\x18@ \x01(\tR\x0fmemory_per_tres\x12\x12\n" +
-	"\x04name\x18A \x01(\tR\x04name\x12\x18\n" +
-	"\anetwork\x18B \x01(\tR\anetwork\x12\x14\n" +
-	"\x05nodes\x18C \x01(\tR\x05nodes\x12\x12\n" +
-	"\x04nice\x18D \x01(\x05R\x04nice\x12I\n" +
-	"\x0etasks_per_core\x18E \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x0etasks_per_core\x12I\n" +
-	"\x0etasks_per_tres\x18F \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x0etasks_per_tres\x12I\n" +
-	"\x0etasks_per_node\x18G \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x0etasks_per_node\x12M\n" +
-	"\x10tasks_per_socket\x18H \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x10tasks_per_socket\x12K\n" +
-	"\x0ftasks_per_board\x18I \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x0ftasks_per_board\x125\n" +
-	"\x04cpus\x18J \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x04cpus\x12A\n" +
-	"\n" +
-	"node_count\x18K \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\n" +
-	"node_count\x127\n" +
-	"\x05tasks\x18L \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x05tasks\x12\x1c\n" +
-	"\tpartition\x18M \x01(\tR\tpartition\x12\x16\n" +
-	"\x06prefer\x18N \x01(\tR\x06prefer\x12I\n" +
-	"\x0ememory_per_cpu\x18O \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\x0ememory_per_cpu\x12K\n" +
-	"\x0fmemory_per_node\x18P \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\x0fmemory_per_node\x12W\n" +
-	"\x15minimum_cpus_per_node\x18Q \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x15minimum_cpus_per_node\x12_\n" +
-	"\x19minimum_tmp_disk_per_node\x18R \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x19minimum_tmp_disk_per_node\x12E\n" +
-	"\fpreempt_time\x18S \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\fpreempt_time\x12M\n" +
-	"\x10preemptable_time\x18T \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\x10preemptable_time\x12E\n" +
-	"\fpre_sus_time\x18U \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\fpre_sus_time\x12\x12\n" +
-	"\x04hold\x18V \x01(\bR\x04hold\x12=\n" +
-	"\bpriority\x18W \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\bpriority\x12\x18\n" +
-	"\aprofile\x18Y \x03(\tR\aprofile\x12\x10\n" +
-	"\x03qos\x18Z \x01(\tR\x03qos\x12\x16\n" +
-	"\x06reboot\x18[ \x01(\bR\x06reboot\x12&\n" +
-	"\x0erequired_nodes\x18\\ \x01(\tR\x0erequired_nodes\x12,\n" +
-	"\x11required_switches\x18] \x01(\x05R\x11required_switches\x12\x18\n" +
-	"\arequeue\x18^ \x01(\bR\arequeue\x12C\n" +
-	"\vresize_time\x18_ \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\vresize_time\x12 \n" +
-	"\vrestart_cnt\x18` \x01(\x05R\vrestart_cnt\x12\x1c\n" +
-	"\tresv_name\x18a \x01(\tR\tresv_name\x12(\n" +
-	"\x0fscheduled_nodes\x18b \x01(\tR\x0fscheduled_nodes\x12(\n" +
-	"\x0fselinux_context\x18c \x01(\tR\x0fselinux_context\x12\x16\n" +
-	"\x06shared\x18d \x03(\tR\x06shared\x12,\n" +
-	"\x11sockets_per_board\x18e \x01(\x05R\x11sockets_per_board\x12M\n" +
-	"\x10sockets_per_node\x18f \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x10sockets_per_node\x12A\n" +
-	"\n" +
-	"start_time\x18g \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\n" +
-	"start_time\x12,\n" +
-	"\x11state_description\x18h \x01(\tR\x11state_description\x12\"\n" +
-	"\fstate_reason\x18i \x01(\tR\fstate_reason\x12&\n" +
-	"\x0estandard_error\x18j \x01(\tR\x0estandard_error\x12&\n" +
-	"\x0estandard_input\x18k \x01(\tR\x0estandard_input\x12(\n" +
-	"\x0fstandard_output\x18l \x01(\tR\x0fstandard_output\x12C\n" +
-	"\vsubmit_time\x18m \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\vsubmit_time\x12E\n" +
-	"\fsuspend_time\x18n \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\fsuspend_time\x12&\n" +
-	"\x0esystem_comment\x18o \x01(\tR\x0esystem_comment\x12A\n" +
-	"\n" +
-	"time_limit\x18p \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\n" +
-	"time_limit\x12E\n" +
-	"\ftime_minimum\x18q \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\ftime_minimum\x12M\n" +
-	"\x10threads_per_core\x18r \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x10threads_per_core\x12\x1c\n" +
-	"\ttres_bind\x18s \x01(\tR\ttres_bind\x12\"\n" +
-	"\ftres_per_job\x18t \x01(\tR\ftres_per_job\x12$\n" +
-	"\rtres_per_node\x18u \x01(\tR\rtres_per_node\x12(\n" +
-	"\x0ftres_per_socket\x18v \x01(\tR\x0ftres_per_socket\x12$\n" +
-	"\rtres_per_task\x18w \x01(\tR\rtres_per_task\x12\"\n" +
-	"\ftres_req_str\x18x \x01(\tR\ftres_req_str\x12&\n" +
-	"\x0etres_alloc_str\x18y \x01(\tR\x0etres_alloc_str\x12\x18\n" +
-	"\auser_id\x18z \x01(\rR\auser_id\x12\x1c\n" +
-	"\tuser_name\x18{ \x01(\tR\tuser_name\x12:\n" +
-	"\x18maximum_switch_wait_time\x18| \x01(\x05R\x18maximum_switch_wait_time\x12\x14\n" +
-	"\x05wckey\x18} \x01(\tR\x05wckey\x12<\n" +
-	"\x19current_working_directory\x18~ \x01(\tR\x19current_working_directory\x1a\xcc\x02\n" +
-	"\tResources\x12 \n" +
-	"\vselect_type\x18\x01 \x03(\tR\vselect_type\x12\x12\n" +
-	"\x04cpus\x18\x02 \x01(\rR\x04cpus\x12M\n" +
-	"\x10threads_per_core\x18\x03 \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x10threads_per_core\x12O\n" +
-	"\x05nodes\x18\x04 \x01(\v29.olcf.s3m.slurm.v0044.SlurmJobDescription.Resources.NodesR\x05nodes\x1ai\n" +
-	"\x05Nodes\x12\x14\n" +
-	"\x05count\x18\x01 \x01(\x05R\x05count\x12\x12\n" +
-	"\x04list\x18\x02 \x01(\tR\x04list\x12\x14\n" +
-	"\x05whole\x18\x03 \x01(\bR\x05whole\x12 \n" +
-	"\vselect_type\x18\x04 \x03(\tR\vselect_type\"\"\n" +
+	"\bwarnings\x18\x03 \x03(\v2!.olcf.s3m.slurm.v0044.WarningRespR\bwarnings\x12?\n" +
+	"\x04jobs\x18\x04 \x03(\v2+.olcf.s3m.slurm.v0044.SlurmDBJobDescriptionR\x04jobs\"\"\n" +
 	"\bJobIdReq\x12\x16\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x06job_id\"\xf8\x01\n" +
 	"\tJobIdResp\x122\n" +
 	"\x04meta\x18\x01 \x01(\v2\x1e.olcf.s3m.slurm.v0044.MetaRespR\x04meta\x127\n" +
 	"\x06errors\x18\x02 \x03(\v2\x1f.olcf.s3m.slurm.v0044.ErrorRespR\x06errors\x12=\n" +
 	"\bwarnings\x18\x03 \x03(\v2!.olcf.s3m.slurm.v0044.WarningRespR\bwarnings\x12?\n" +
-	"\x04jobs\x18\x04 \x03(\v2+.olcf.s3m.slurm.v0044.SlurmDBJobDescriptionR\x04jobs\"\xed!\n" +
+	"\x04jobs\x18\x04 \x03(\v2+.olcf.s3m.slurm.v0044.SlurmDBJobDescriptionR\x04jobs\"\xa1%\n" +
 	"\x15SlurmDBJobDescription\x12\x18\n" +
 	"\aaccount\x18\x01 \x01(\tR\aaccount\x12M\n" +
 	"\acomment\x18\x02 \x01(\v23.olcf.s3m.slurm.v0044.SlurmDBJobDescription.CommentR\acomment\x12*\n" +
@@ -8352,7 +7231,8 @@ const file_proto_slurm_v0044_slurm_proto_rawDesc = "" +
 	"\x05stdin\x18% \x01(\tR\x05stdin\x12G\n" +
 	"\x05state\x18& \x01(\v21.olcf.s3m.slurm.v0044.SlurmDBJobDescription.StateR\x05state\x12F\n" +
 	"\x05steps\x18' \x03(\v20.olcf.s3m.slurm.v0044.SlurmDBJobDescription.StepR\x05steps\x12 \n" +
-	"\vsubmit_line\x18( \x01(\tR\vsubmit_line\x12\x1c\n" +
+	"\vsubmit_line\x18( \x01(\tR\vsubmit_line\x12D\n" +
+	"\x04tres\x18) \x01(\v20.olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRESR\x04tres\x12\x1c\n" +
 	"\tused_gres\x18* \x01(\tR\tused_gres\x12\x12\n" +
 	"\x04user\x18+ \x01(\tR\x04user\x12,\n" +
 	"\x11working_directory\x18- \x01(\tR\x11working_directory\x1a\xa6\x03\n" +
@@ -8381,13 +7261,17 @@ const file_proto_slurm_v0044_slurm_proto_rawDesc = "" +
 	"\x06job_id\x18\x01 \x01(\x05R\x06job_id\x12A\n" +
 	"\n" +
 	"job_offset\x18\x02 \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\n" +
-	"job_offset\x1a\xa3\x01\n" +
+	"job_offset\x1a\xfc\x01\n" +
 	"\x04Time\x12\x18\n" +
 	"\aelapsed\x18\x01 \x01(\x05R\aelapsed\x12\x14\n" +
 	"\x05start\x18\x02 \x01(\x03R\x05start\x12\x10\n" +
 	"\x03end\x18\x03 \x01(\x03R\x03end\x12\x1c\n" +
 	"\tsuspended\x18\x04 \x01(\x05R\tsuspended\x12;\n" +
-	"\aplanned\x18\x05 \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\aplanned\x1a\xb6\x01\n" +
+	"\aplanned\x18\x05 \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\aplanned\x12\x1e\n" +
+	"\n" +
+	"submission\x18\x06 \x01(\x03R\n" +
+	"submission\x127\n" +
+	"\x05limit\x18\a \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x05limit\x1a\xb6\x01\n" +
 	"\bRequired\x12\x12\n" +
 	"\x04CPUs\x18\x01 \x01(\x05R\x04CPUs\x12I\n" +
 	"\x0ememory_per_cpu\x18\x02 \x01(\v2!.olcf.s3m.slurm.v0044.Uint64NoValR\x0ememory_per_cpu\x12K\n" +
@@ -8397,7 +7281,15 @@ const file_proto_slurm_v0044_slurm_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x1a9\n" +
 	"\x05State\x12\x18\n" +
 	"\acurrent\x18\x01 \x03(\tR\acurrent\x12\x16\n" +
-	"\x06reason\x18\x02 \x01(\tR\x06reason\x1a\xf9\t\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\x1a\x92\x02\n" +
+	"\x04TRES\x12W\n" +
+	"\tallocated\x18\x01 \x03(\v29.olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRES.ResourceR\tallocated\x12W\n" +
+	"\trequested\x18\x02 \x03(\v29.olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRES.ResourceR\trequested\x1aX\n" +
+	"\bResource\x12\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x0e\n" +
+	"\x02id\x18\x03 \x01(\x05R\x02id\x12\x14\n" +
+	"\x05count\x18\x04 \x01(\x03R\x05count\x1a\xf9\t\n" +
 	"\x04Step\x12M\n" +
 	"\x04time\x18\x01 \x01(\v29.olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.StepTimeR\x04time\x12J\n" +
 	"\texit_code\x18\x02 \x01(\v2,.olcf.s3m.slurm.v0044.ProcessExitCodeVerboseR\texit_code\x12L\n" +
@@ -8771,12 +7663,12 @@ const file_proto_slurm_v0044_slurm_proto_rawDesc = "" +
 	"\x04node\x18\x01 \x01(\tR\x04node\x12\x12\n" +
 	"\x04core\x18\x02 \x01(\tR\x04core\x1aG\n" +
 	"\x0ePurgeCompleted\x125\n" +
-	"\x04time\x18\x01 \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x04time2\xb3\b\n" +
+	"\x04time\x18\x01 \x01(\v2!.olcf.s3m.slurm.v0044.Uint32NoValR\x04time2\xbc\b\n" +
 	"\rSlurmIndirect\x12[\n" +
 	"\x04Ping\x12\x16.google.protobuf.Empty\x1a\x1e.olcf.s3m.slurm.v0044.PingResp\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/slurm/v0.0.44/ping\x12^\n" +
 	"\aGetDiag\x12\x16.google.protobuf.Empty\x1a\x1e.olcf.s3m.slurm.v0044.DiagResp\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/slurm/v0.0.44/diag\x12n\n" +
-	"\x06GetJob\x12\x1e.olcf.s3m.slurm.v0044.JobIdReq\x1a\x1f.olcf.s3m.slurm.v0044.JobIdResp\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/slurm/v0.0.44/job/{job_id}\x12^\n" +
-	"\aGetJobs\x12\x16.google.protobuf.Empty\x1a\x1e.olcf.s3m.slurm.v0044.JobsResp\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/slurm/v0.0.44/jobs\x12\xa3\x01\n" +
+	"\x06GetJob\x12\x1e.olcf.s3m.slurm.v0044.JobIdReq\x1a\x1f.olcf.s3m.slurm.v0044.JobIdResp\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/slurm/v0.0.44/job/{job_id}\x12g\n" +
+	"\aGetJobs\x12\x1d.olcf.s3m.slurm.v0044.JobsReq\x1a\x1e.olcf.s3m.slurm.v0044.JobsResp\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/slurmdb/v0.0.44/jobs\x12\xa3\x01\n" +
 	"\rPostJobSubmit\x12\".olcf.s3m.slurm.v0044.JobSubmitReq\x1a#.olcf.s3m.slurm.v0044.JobSubmitResp\"I\xa2\xecI!\n" +
 	"\x11x-s3m-withstorage\x12\fwith_storage\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/slurm/v0.0.44/job/submit\x12y\n" +
 	"\tDeleteJob\x12\".olcf.s3m.slurm.v0044.DeleteJobReq\x1a#.olcf.s3m.slurm.v0044.DeleteJobResp\"#\x82\xd3\xe4\x93\x02\x1d*\x1b/slurm/v0.0.44/job/{job_id}\x12a\n" +
@@ -8823,8 +7715,8 @@ var file_proto_slurm_v0044_slurm_proto_goTypes = []any{
 	(*DiagRPCSUser)(nil),                                      // 21: olcf.s3m.slurm.v0044.DiagRPCSUser
 	(*DiagScheduleExit)(nil),                                  // 22: olcf.s3m.slurm.v0044.DiagScheduleExit
 	(*DiagBFExit)(nil),                                        // 23: olcf.s3m.slurm.v0044.DiagBFExit
-	(*JobsResp)(nil),                                          // 24: olcf.s3m.slurm.v0044.JobsResp
-	(*SlurmJobDescription)(nil),                               // 25: olcf.s3m.slurm.v0044.SlurmJobDescription
+	(*JobsReq)(nil),                                           // 24: olcf.s3m.slurm.v0044.JobsReq
+	(*JobsResp)(nil),                                          // 25: olcf.s3m.slurm.v0044.JobsResp
 	(*JobIdReq)(nil),                                          // 26: olcf.s3m.slurm.v0044.JobIdReq
 	(*JobIdResp)(nil),                                         // 27: olcf.s3m.slurm.v0044.JobIdResp
 	(*SlurmDBJobDescription)(nil),                             // 28: olcf.s3m.slurm.v0044.SlurmDBJobDescription
@@ -8840,20 +7732,20 @@ var file_proto_slurm_v0044_slurm_proto_goTypes = []any{
 	(*SlurmPartitionDescription)(nil),                         // 38: olcf.s3m.slurm.v0044.SlurmPartitionDescription
 	(*ReservationsResp)(nil),                                  // 39: olcf.s3m.slurm.v0044.ReservationsResp
 	(*Reservation)(nil),                                       // 40: olcf.s3m.slurm.v0044.Reservation
-	(*SlurmJobDescription_Resources)(nil),                     // 41: olcf.s3m.slurm.v0044.SlurmJobDescription.Resources
-	(*SlurmJobDescription_Resources_Nodes)(nil),               // 42: olcf.s3m.slurm.v0044.SlurmJobDescription.Resources.Nodes
-	(*SlurmDBJobDescription_Array)(nil),                       // 43: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array
-	(*SlurmDBJobDescription_Association)(nil),                 // 44: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Association
-	(*SlurmDBJobDescription_Comment)(nil),                     // 45: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Comment
-	(*SlurmDBJobDescription_HET)(nil),                         // 46: olcf.s3m.slurm.v0044.SlurmDBJobDescription.HET
-	(*SlurmDBJobDescription_Time)(nil),                        // 47: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Time
-	(*SlurmDBJobDescription_Required)(nil),                    // 48: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Required
-	(*SlurmDBJobDescription_Reservation)(nil),                 // 49: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Reservation
-	(*SlurmDBJobDescription_State)(nil),                       // 50: olcf.s3m.slurm.v0044.SlurmDBJobDescription.State
-	(*SlurmDBJobDescription_Step)(nil),                        // 51: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step
-	(*SlurmDBJobDescription_Array_Limits)(nil),                // 52: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits
-	(*SlurmDBJobDescription_Array_Limits_Max)(nil),            // 53: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max
-	(*SlurmDBJobDescription_Array_Limits_Max_Running)(nil),    // 54: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max.Running
+	(*SlurmDBJobDescription_Array)(nil),                       // 41: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array
+	(*SlurmDBJobDescription_Association)(nil),                 // 42: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Association
+	(*SlurmDBJobDescription_Comment)(nil),                     // 43: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Comment
+	(*SlurmDBJobDescription_HET)(nil),                         // 44: olcf.s3m.slurm.v0044.SlurmDBJobDescription.HET
+	(*SlurmDBJobDescription_Time)(nil),                        // 45: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Time
+	(*SlurmDBJobDescription_Required)(nil),                    // 46: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Required
+	(*SlurmDBJobDescription_Reservation)(nil),                 // 47: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Reservation
+	(*SlurmDBJobDescription_State)(nil),                       // 48: olcf.s3m.slurm.v0044.SlurmDBJobDescription.State
+	(*SlurmDBJobDescription_TRES)(nil),                        // 49: olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRES
+	(*SlurmDBJobDescription_Step)(nil),                        // 50: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step
+	(*SlurmDBJobDescription_Array_Limits)(nil),                // 51: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits
+	(*SlurmDBJobDescription_Array_Limits_Max)(nil),            // 52: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max
+	(*SlurmDBJobDescription_Array_Limits_Max_Running)(nil),    // 53: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max.Running
+	(*SlurmDBJobDescription_TRES_Resource)(nil),               // 54: olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRES.Resource
 	(*SlurmDBJobDescription_Step_Nodes)(nil),                  // 55: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.Nodes
 	(*SlurmDBJobDescription_Step_Tasks)(nil),                  // 56: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.Tasks
 	(*SlurmDBJobDescription_Step_CPU)(nil),                    // 57: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU
@@ -8913,205 +7805,159 @@ var file_proto_slurm_v0044_slurm_proto_depIdxs = []int32{
 	13,  // 24: olcf.s3m.slurm.v0044.JobsResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
 	0,   // 25: olcf.s3m.slurm.v0044.JobsResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
 	1,   // 26: olcf.s3m.slurm.v0044.JobsResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
-	25,  // 27: olcf.s3m.slurm.v0044.JobsResp.jobs:type_name -> olcf.s3m.slurm.v0044.SlurmJobDescription
-	6,   // 28: olcf.s3m.slurm.v0044.JobsResp.last_backfill:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 29: olcf.s3m.slurm.v0044.JobsResp.last_update:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 30: olcf.s3m.slurm.v0044.SlurmJobDescription.accrue_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 31: olcf.s3m.slurm.v0044.SlurmJobDescription.array_job_id:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 32: olcf.s3m.slurm.v0044.SlurmJobDescription.array_task_id:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 33: olcf.s3m.slurm.v0044.SlurmJobDescription.array_max_tasks:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 34: olcf.s3m.slurm.v0044.SlurmJobDescription.cores_per_socket:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	8,   // 35: olcf.s3m.slurm.v0044.SlurmJobDescription.billable_tres:type_name -> olcf.s3m.slurm.v0044.Float64NoVal
-	5,   // 36: olcf.s3m.slurm.v0044.SlurmJobDescription.cpus_per_task:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 37: olcf.s3m.slurm.v0044.SlurmJobDescription.cpu_frequency_minimum:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 38: olcf.s3m.slurm.v0044.SlurmJobDescription.cpu_frequency_maximum:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 39: olcf.s3m.slurm.v0044.SlurmJobDescription.cpu_frequency_governor:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 40: olcf.s3m.slurm.v0044.SlurmJobDescription.deadline:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 41: olcf.s3m.slurm.v0044.SlurmJobDescription.delay_boot:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	9,   // 42: olcf.s3m.slurm.v0044.SlurmJobDescription.derived_exit_code:type_name -> olcf.s3m.slurm.v0044.ExitCode
-	6,   // 43: olcf.s3m.slurm.v0044.SlurmJobDescription.eligible_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 44: olcf.s3m.slurm.v0044.SlurmJobDescription.end_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	9,   // 45: olcf.s3m.slurm.v0044.SlurmJobDescription.exit_code:type_name -> olcf.s3m.slurm.v0044.ExitCode
-	5,   // 46: olcf.s3m.slurm.v0044.SlurmJobDescription.het_job_id:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 47: olcf.s3m.slurm.v0044.SlurmJobDescription.het_job_offset:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	41,  // 48: olcf.s3m.slurm.v0044.SlurmJobDescription.job_resources:type_name -> olcf.s3m.slurm.v0044.SlurmJobDescription.Resources
-	6,   // 49: olcf.s3m.slurm.v0044.SlurmJobDescription.last_sched_evaluation:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 50: olcf.s3m.slurm.v0044.SlurmJobDescription.max_cpus:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 51: olcf.s3m.slurm.v0044.SlurmJobDescription.max_nodes:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 52: olcf.s3m.slurm.v0044.SlurmJobDescription.tasks_per_core:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 53: olcf.s3m.slurm.v0044.SlurmJobDescription.tasks_per_tres:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 54: olcf.s3m.slurm.v0044.SlurmJobDescription.tasks_per_node:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 55: olcf.s3m.slurm.v0044.SlurmJobDescription.tasks_per_socket:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 56: olcf.s3m.slurm.v0044.SlurmJobDescription.tasks_per_board:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 57: olcf.s3m.slurm.v0044.SlurmJobDescription.cpus:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 58: olcf.s3m.slurm.v0044.SlurmJobDescription.node_count:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 59: olcf.s3m.slurm.v0044.SlurmJobDescription.tasks:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 60: olcf.s3m.slurm.v0044.SlurmJobDescription.memory_per_cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 61: olcf.s3m.slurm.v0044.SlurmJobDescription.memory_per_node:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 62: olcf.s3m.slurm.v0044.SlurmJobDescription.minimum_cpus_per_node:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 63: olcf.s3m.slurm.v0044.SlurmJobDescription.minimum_tmp_disk_per_node:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 64: olcf.s3m.slurm.v0044.SlurmJobDescription.preempt_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 65: olcf.s3m.slurm.v0044.SlurmJobDescription.preemptable_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 66: olcf.s3m.slurm.v0044.SlurmJobDescription.pre_sus_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 67: olcf.s3m.slurm.v0044.SlurmJobDescription.priority:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 68: olcf.s3m.slurm.v0044.SlurmJobDescription.resize_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 69: olcf.s3m.slurm.v0044.SlurmJobDescription.sockets_per_node:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 70: olcf.s3m.slurm.v0044.SlurmJobDescription.start_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 71: olcf.s3m.slurm.v0044.SlurmJobDescription.submit_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 72: olcf.s3m.slurm.v0044.SlurmJobDescription.suspend_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 73: olcf.s3m.slurm.v0044.SlurmJobDescription.time_limit:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 74: olcf.s3m.slurm.v0044.SlurmJobDescription.time_minimum:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 75: olcf.s3m.slurm.v0044.SlurmJobDescription.threads_per_core:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	13,  // 76: olcf.s3m.slurm.v0044.JobIdResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
-	0,   // 77: olcf.s3m.slurm.v0044.JobIdResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
-	1,   // 78: olcf.s3m.slurm.v0044.JobIdResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
-	28,  // 79: olcf.s3m.slurm.v0044.JobIdResp.jobs:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription
-	45,  // 80: olcf.s3m.slurm.v0044.SlurmDBJobDescription.comment:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Comment
-	43,  // 81: olcf.s3m.slurm.v0044.SlurmDBJobDescription.array:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array
-	44,  // 82: olcf.s3m.slurm.v0044.SlurmDBJobDescription.association:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Association
-	12,  // 83: olcf.s3m.slurm.v0044.SlurmDBJobDescription.derived_exit_code:type_name -> olcf.s3m.slurm.v0044.ProcessExitCodeVerbose
-	47,  // 84: olcf.s3m.slurm.v0044.SlurmDBJobDescription.time:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Time
-	12,  // 85: olcf.s3m.slurm.v0044.SlurmDBJobDescription.exit_code:type_name -> olcf.s3m.slurm.v0044.ProcessExitCodeVerbose
-	46,  // 86: olcf.s3m.slurm.v0044.SlurmDBJobDescription.het:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.HET
-	5,   // 87: olcf.s3m.slurm.v0044.SlurmDBJobDescription.priority:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	48,  // 88: olcf.s3m.slurm.v0044.SlurmDBJobDescription.required:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Required
-	49,  // 89: olcf.s3m.slurm.v0044.SlurmDBJobDescription.reservation:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Reservation
-	50,  // 90: olcf.s3m.slurm.v0044.SlurmDBJobDescription.state:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.State
-	51,  // 91: olcf.s3m.slurm.v0044.SlurmDBJobDescription.steps:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step
-	62,  // 92: olcf.s3m.slurm.v0044.JobSubmitReq.jobs:type_name -> olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription
-	62,  // 93: olcf.s3m.slurm.v0044.JobSubmitReq.job:type_name -> olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription
-	13,  // 94: olcf.s3m.slurm.v0044.JobSubmitResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
-	0,   // 95: olcf.s3m.slurm.v0044.JobSubmitResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
-	1,   // 96: olcf.s3m.slurm.v0044.JobSubmitResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
-	13,  // 97: olcf.s3m.slurm.v0044.DeleteJobResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
-	0,   // 98: olcf.s3m.slurm.v0044.DeleteJobResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
-	1,   // 99: olcf.s3m.slurm.v0044.DeleteJobResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
-	65,  // 100: olcf.s3m.slurm.v0044.DeleteJobResp.status:type_name -> olcf.s3m.slurm.v0044.DeleteJobResp.Status
-	13,  // 101: olcf.s3m.slurm.v0044.NodesResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
-	0,   // 102: olcf.s3m.slurm.v0044.NodesResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
-	1,   // 103: olcf.s3m.slurm.v0044.NodesResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
-	34,  // 104: olcf.s3m.slurm.v0044.NodesResp.nodes:type_name -> olcf.s3m.slurm.v0044.SlurmNodeDescription
-	6,   // 105: olcf.s3m.slurm.v0044.NodesResp.last_update:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 106: olcf.s3m.slurm.v0044.SlurmNodeDescription.boot_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 107: olcf.s3m.slurm.v0044.SlurmNodeDescription.free_mem:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	68,  // 108: olcf.s3m.slurm.v0044.SlurmNodeDescription.energy:type_name -> olcf.s3m.slurm.v0044.SlurmNodeDescription.Enegery
-	6,   // 109: olcf.s3m.slurm.v0044.SlurmNodeDescription.last_busy:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 110: olcf.s3m.slurm.v0044.SlurmNodeDescription.reason_changed_at:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 111: olcf.s3m.slurm.v0044.SlurmNodeDescription.resume_after:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 112: olcf.s3m.slurm.v0044.SlurmNodeDescription.slurmd_start_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 113: olcf.s3m.slurm.v0044.SlurmNodeDescription.tls_cert_last_renewal:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	13,  // 114: olcf.s3m.slurm.v0044.PingResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
-	0,   // 115: olcf.s3m.slurm.v0044.PingResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
-	1,   // 116: olcf.s3m.slurm.v0044.PingResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
-	35,  // 117: olcf.s3m.slurm.v0044.PingResp.pings:type_name -> olcf.s3m.slurm.v0044.ControllerPingResp
-	13,  // 118: olcf.s3m.slurm.v0044.PartitionsResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
-	0,   // 119: olcf.s3m.slurm.v0044.PartitionsResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
-	1,   // 120: olcf.s3m.slurm.v0044.PartitionsResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
-	38,  // 121: olcf.s3m.slurm.v0044.PartitionsResp.partitions:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription
-	6,   // 122: olcf.s3m.slurm.v0044.PartitionsResp.last_update:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	69,  // 123: olcf.s3m.slurm.v0044.SlurmPartitionDescription.nodes:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Nodes
-	70,  // 124: olcf.s3m.slurm.v0044.SlurmPartitionDescription.accounts:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Accounts
-	71,  // 125: olcf.s3m.slurm.v0044.SlurmPartitionDescription.groups:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Groups
-	72,  // 126: olcf.s3m.slurm.v0044.SlurmPartitionDescription.qos:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Qos
-	73,  // 127: olcf.s3m.slurm.v0044.SlurmPartitionDescription.tres:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Tres
-	74,  // 128: olcf.s3m.slurm.v0044.SlurmPartitionDescription.cpus:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Cpus
-	75,  // 129: olcf.s3m.slurm.v0044.SlurmPartitionDescription.defaults:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Defaults
-	76,  // 130: olcf.s3m.slurm.v0044.SlurmPartitionDescription.maximums:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums
-	77,  // 131: olcf.s3m.slurm.v0044.SlurmPartitionDescription.minimums:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Minimums
-	78,  // 132: olcf.s3m.slurm.v0044.SlurmPartitionDescription.priority:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Priority
-	79,  // 133: olcf.s3m.slurm.v0044.SlurmPartitionDescription.timeouts:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Timeouts
-	80,  // 134: olcf.s3m.slurm.v0044.SlurmPartitionDescription.partition:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Partition
-	5,   // 135: olcf.s3m.slurm.v0044.SlurmPartitionDescription.suspend_time:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	13,  // 136: olcf.s3m.slurm.v0044.ReservationsResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
-	0,   // 137: olcf.s3m.slurm.v0044.ReservationsResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
-	1,   // 138: olcf.s3m.slurm.v0044.ReservationsResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
-	40,  // 139: olcf.s3m.slurm.v0044.ReservationsResp.reservations:type_name -> olcf.s3m.slurm.v0044.Reservation
-	6,   // 140: olcf.s3m.slurm.v0044.ReservationsResp.last_update:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	82,  // 141: olcf.s3m.slurm.v0044.Reservation.core_specializations:type_name -> olcf.s3m.slurm.v0044.Reservation.CoreSpecialization
-	6,   // 142: olcf.s3m.slurm.v0044.Reservation.end_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	83,  // 143: olcf.s3m.slurm.v0044.Reservation.purge_completed:type_name -> olcf.s3m.slurm.v0044.Reservation.PurgeCompleted
-	6,   // 144: olcf.s3m.slurm.v0044.Reservation.start_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 145: olcf.s3m.slurm.v0044.Reservation.watts:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 146: olcf.s3m.slurm.v0044.SlurmJobDescription.Resources.threads_per_core:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	42,  // 147: olcf.s3m.slurm.v0044.SlurmJobDescription.Resources.nodes:type_name -> olcf.s3m.slurm.v0044.SlurmJobDescription.Resources.Nodes
-	5,   // 148: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.task_id:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	52,  // 149: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.limits:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits
-	5,   // 150: olcf.s3m.slurm.v0044.SlurmDBJobDescription.HET.job_offset:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 151: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Time.planned:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 152: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Required.memory_per_cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 153: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Required.memory_per_node:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	60,  // 154: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.time:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.StepTime
-	12,  // 155: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.exit_code:type_name -> olcf.s3m.slurm.v0044.ProcessExitCodeVerbose
-	55,  // 156: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.nodes:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.Nodes
-	56,  // 157: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.tasks:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.Tasks
-	57,  // 158: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.cpu:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU
-	58,  // 159: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.step:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.StepInfo
-	59,  // 160: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.task:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.Task
-	53,  // 161: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.max:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max
-	54,  // 162: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max.running:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max.Running
-	61,  // 163: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU.requested_frequency:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU.RequestedFrequency
-	6,   // 164: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.StepTime.end:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 165: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.StepTime.start:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 166: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU.RequestedFrequency.min:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 167: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU.RequestedFrequency.max:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 168: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.begin_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 169: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.distribution_plane_size:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 170: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.priority:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 171: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.time_limit:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 172: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.time_minimum:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 173: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.memory_per_cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 174: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.memory_per_node:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 175: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 176: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.fsize:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 177: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.data:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 178: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.stack:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 179: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.core:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 180: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.rss:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 181: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.nproc:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 182: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.nofile:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 183: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.memlock:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 184: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.as:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	66,  // 185: olcf.s3m.slurm.v0044.DeleteJobResp.Status.error:type_name -> olcf.s3m.slurm.v0044.DeleteJobResp.Status.Error
-	5,   // 186: olcf.s3m.slurm.v0044.DeleteJobResp.Status.job_id:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	67,  // 187: olcf.s3m.slurm.v0044.DeleteJobResp.Status.federation:type_name -> olcf.s3m.slurm.v0044.DeleteJobResp.Status.Federation
-	5,   // 188: olcf.s3m.slurm.v0044.SlurmNodeDescription.Enegery.current_watts:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 189: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Defaults.partition_memory_per_cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 190: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Defaults.partition_memory_per_node:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 191: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Defaults.time:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 192: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.cpus_per_node:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 193: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.cpus_per_socket:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	6,   // 194: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.partition_memory_per_cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	6,   // 195: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.partition_memory_per_node:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
-	5,   // 196: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.nodes:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	81,  // 197: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.oversubscribe:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.Oversubscribe
-	5,   // 198: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.time:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 199: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.over_time_limit:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 200: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Timeouts.resume:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 201: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Timeouts.suspend:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	5,   // 202: olcf.s3m.slurm.v0044.Reservation.PurgeCompleted.time:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
-	84,  // 203: olcf.s3m.slurm.v0044.SlurmIndirect.Ping:input_type -> google.protobuf.Empty
-	84,  // 204: olcf.s3m.slurm.v0044.SlurmIndirect.GetDiag:input_type -> google.protobuf.Empty
-	26,  // 205: olcf.s3m.slurm.v0044.SlurmIndirect.GetJob:input_type -> olcf.s3m.slurm.v0044.JobIdReq
-	84,  // 206: olcf.s3m.slurm.v0044.SlurmIndirect.GetJobs:input_type -> google.protobuf.Empty
-	29,  // 207: olcf.s3m.slurm.v0044.SlurmIndirect.PostJobSubmit:input_type -> olcf.s3m.slurm.v0044.JobSubmitReq
-	31,  // 208: olcf.s3m.slurm.v0044.SlurmIndirect.DeleteJob:input_type -> olcf.s3m.slurm.v0044.DeleteJobReq
-	84,  // 209: olcf.s3m.slurm.v0044.SlurmIndirect.GetNodes:input_type -> google.protobuf.Empty
-	84,  // 210: olcf.s3m.slurm.v0044.SlurmIndirect.GetPartitions:input_type -> google.protobuf.Empty
-	84,  // 211: olcf.s3m.slurm.v0044.SlurmIndirect.GetReservations:input_type -> google.protobuf.Empty
-	36,  // 212: olcf.s3m.slurm.v0044.SlurmIndirect.Ping:output_type -> olcf.s3m.slurm.v0044.PingResp
-	18,  // 213: olcf.s3m.slurm.v0044.SlurmIndirect.GetDiag:output_type -> olcf.s3m.slurm.v0044.DiagResp
-	27,  // 214: olcf.s3m.slurm.v0044.SlurmIndirect.GetJob:output_type -> olcf.s3m.slurm.v0044.JobIdResp
-	24,  // 215: olcf.s3m.slurm.v0044.SlurmIndirect.GetJobs:output_type -> olcf.s3m.slurm.v0044.JobsResp
-	30,  // 216: olcf.s3m.slurm.v0044.SlurmIndirect.PostJobSubmit:output_type -> olcf.s3m.slurm.v0044.JobSubmitResp
-	32,  // 217: olcf.s3m.slurm.v0044.SlurmIndirect.DeleteJob:output_type -> olcf.s3m.slurm.v0044.DeleteJobResp
-	33,  // 218: olcf.s3m.slurm.v0044.SlurmIndirect.GetNodes:output_type -> olcf.s3m.slurm.v0044.NodesResp
-	37,  // 219: olcf.s3m.slurm.v0044.SlurmIndirect.GetPartitions:output_type -> olcf.s3m.slurm.v0044.PartitionsResp
-	39,  // 220: olcf.s3m.slurm.v0044.SlurmIndirect.GetReservations:output_type -> olcf.s3m.slurm.v0044.ReservationsResp
-	212, // [212:221] is the sub-list for method output_type
-	203, // [203:212] is the sub-list for method input_type
-	203, // [203:203] is the sub-list for extension type_name
-	203, // [203:203] is the sub-list for extension extendee
-	0,   // [0:203] is the sub-list for field type_name
+	28,  // 27: olcf.s3m.slurm.v0044.JobsResp.jobs:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription
+	13,  // 28: olcf.s3m.slurm.v0044.JobIdResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
+	0,   // 29: olcf.s3m.slurm.v0044.JobIdResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
+	1,   // 30: olcf.s3m.slurm.v0044.JobIdResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
+	28,  // 31: olcf.s3m.slurm.v0044.JobIdResp.jobs:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription
+	43,  // 32: olcf.s3m.slurm.v0044.SlurmDBJobDescription.comment:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Comment
+	41,  // 33: olcf.s3m.slurm.v0044.SlurmDBJobDescription.array:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array
+	42,  // 34: olcf.s3m.slurm.v0044.SlurmDBJobDescription.association:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Association
+	12,  // 35: olcf.s3m.slurm.v0044.SlurmDBJobDescription.derived_exit_code:type_name -> olcf.s3m.slurm.v0044.ProcessExitCodeVerbose
+	45,  // 36: olcf.s3m.slurm.v0044.SlurmDBJobDescription.time:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Time
+	12,  // 37: olcf.s3m.slurm.v0044.SlurmDBJobDescription.exit_code:type_name -> olcf.s3m.slurm.v0044.ProcessExitCodeVerbose
+	44,  // 38: olcf.s3m.slurm.v0044.SlurmDBJobDescription.het:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.HET
+	5,   // 39: olcf.s3m.slurm.v0044.SlurmDBJobDescription.priority:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	46,  // 40: olcf.s3m.slurm.v0044.SlurmDBJobDescription.required:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Required
+	47,  // 41: olcf.s3m.slurm.v0044.SlurmDBJobDescription.reservation:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Reservation
+	48,  // 42: olcf.s3m.slurm.v0044.SlurmDBJobDescription.state:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.State
+	50,  // 43: olcf.s3m.slurm.v0044.SlurmDBJobDescription.steps:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step
+	49,  // 44: olcf.s3m.slurm.v0044.SlurmDBJobDescription.tres:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRES
+	62,  // 45: olcf.s3m.slurm.v0044.JobSubmitReq.jobs:type_name -> olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription
+	62,  // 46: olcf.s3m.slurm.v0044.JobSubmitReq.job:type_name -> olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription
+	13,  // 47: olcf.s3m.slurm.v0044.JobSubmitResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
+	0,   // 48: olcf.s3m.slurm.v0044.JobSubmitResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
+	1,   // 49: olcf.s3m.slurm.v0044.JobSubmitResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
+	13,  // 50: olcf.s3m.slurm.v0044.DeleteJobResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
+	0,   // 51: olcf.s3m.slurm.v0044.DeleteJobResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
+	1,   // 52: olcf.s3m.slurm.v0044.DeleteJobResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
+	65,  // 53: olcf.s3m.slurm.v0044.DeleteJobResp.status:type_name -> olcf.s3m.slurm.v0044.DeleteJobResp.Status
+	13,  // 54: olcf.s3m.slurm.v0044.NodesResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
+	0,   // 55: olcf.s3m.slurm.v0044.NodesResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
+	1,   // 56: olcf.s3m.slurm.v0044.NodesResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
+	34,  // 57: olcf.s3m.slurm.v0044.NodesResp.nodes:type_name -> olcf.s3m.slurm.v0044.SlurmNodeDescription
+	6,   // 58: olcf.s3m.slurm.v0044.NodesResp.last_update:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 59: olcf.s3m.slurm.v0044.SlurmNodeDescription.boot_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 60: olcf.s3m.slurm.v0044.SlurmNodeDescription.free_mem:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	68,  // 61: olcf.s3m.slurm.v0044.SlurmNodeDescription.energy:type_name -> olcf.s3m.slurm.v0044.SlurmNodeDescription.Enegery
+	6,   // 62: olcf.s3m.slurm.v0044.SlurmNodeDescription.last_busy:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	5,   // 63: olcf.s3m.slurm.v0044.SlurmNodeDescription.reason_changed_at:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	6,   // 64: olcf.s3m.slurm.v0044.SlurmNodeDescription.resume_after:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 65: olcf.s3m.slurm.v0044.SlurmNodeDescription.slurmd_start_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 66: olcf.s3m.slurm.v0044.SlurmNodeDescription.tls_cert_last_renewal:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	13,  // 67: olcf.s3m.slurm.v0044.PingResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
+	0,   // 68: olcf.s3m.slurm.v0044.PingResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
+	1,   // 69: olcf.s3m.slurm.v0044.PingResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
+	35,  // 70: olcf.s3m.slurm.v0044.PingResp.pings:type_name -> olcf.s3m.slurm.v0044.ControllerPingResp
+	13,  // 71: olcf.s3m.slurm.v0044.PartitionsResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
+	0,   // 72: olcf.s3m.slurm.v0044.PartitionsResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
+	1,   // 73: olcf.s3m.slurm.v0044.PartitionsResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
+	38,  // 74: olcf.s3m.slurm.v0044.PartitionsResp.partitions:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription
+	6,   // 75: olcf.s3m.slurm.v0044.PartitionsResp.last_update:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	69,  // 76: olcf.s3m.slurm.v0044.SlurmPartitionDescription.nodes:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Nodes
+	70,  // 77: olcf.s3m.slurm.v0044.SlurmPartitionDescription.accounts:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Accounts
+	71,  // 78: olcf.s3m.slurm.v0044.SlurmPartitionDescription.groups:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Groups
+	72,  // 79: olcf.s3m.slurm.v0044.SlurmPartitionDescription.qos:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Qos
+	73,  // 80: olcf.s3m.slurm.v0044.SlurmPartitionDescription.tres:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Tres
+	74,  // 81: olcf.s3m.slurm.v0044.SlurmPartitionDescription.cpus:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Cpus
+	75,  // 82: olcf.s3m.slurm.v0044.SlurmPartitionDescription.defaults:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Defaults
+	76,  // 83: olcf.s3m.slurm.v0044.SlurmPartitionDescription.maximums:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums
+	77,  // 84: olcf.s3m.slurm.v0044.SlurmPartitionDescription.minimums:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Minimums
+	78,  // 85: olcf.s3m.slurm.v0044.SlurmPartitionDescription.priority:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Priority
+	79,  // 86: olcf.s3m.slurm.v0044.SlurmPartitionDescription.timeouts:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Timeouts
+	80,  // 87: olcf.s3m.slurm.v0044.SlurmPartitionDescription.partition:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Partition
+	5,   // 88: olcf.s3m.slurm.v0044.SlurmPartitionDescription.suspend_time:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	13,  // 89: olcf.s3m.slurm.v0044.ReservationsResp.meta:type_name -> olcf.s3m.slurm.v0044.MetaResp
+	0,   // 90: olcf.s3m.slurm.v0044.ReservationsResp.errors:type_name -> olcf.s3m.slurm.v0044.ErrorResp
+	1,   // 91: olcf.s3m.slurm.v0044.ReservationsResp.warnings:type_name -> olcf.s3m.slurm.v0044.WarningResp
+	40,  // 92: olcf.s3m.slurm.v0044.ReservationsResp.reservations:type_name -> olcf.s3m.slurm.v0044.Reservation
+	6,   // 93: olcf.s3m.slurm.v0044.ReservationsResp.last_update:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	82,  // 94: olcf.s3m.slurm.v0044.Reservation.core_specializations:type_name -> olcf.s3m.slurm.v0044.Reservation.CoreSpecialization
+	6,   // 95: olcf.s3m.slurm.v0044.Reservation.end_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	83,  // 96: olcf.s3m.slurm.v0044.Reservation.purge_completed:type_name -> olcf.s3m.slurm.v0044.Reservation.PurgeCompleted
+	6,   // 97: olcf.s3m.slurm.v0044.Reservation.start_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	5,   // 98: olcf.s3m.slurm.v0044.Reservation.watts:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 99: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.task_id:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	51,  // 100: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.limits:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits
+	5,   // 101: olcf.s3m.slurm.v0044.SlurmDBJobDescription.HET.job_offset:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	6,   // 102: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Time.planned:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	5,   // 103: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Time.limit:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	6,   // 104: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Required.memory_per_cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 105: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Required.memory_per_node:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	54,  // 106: olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRES.allocated:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRES.Resource
+	54,  // 107: olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRES.requested:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.TRES.Resource
+	60,  // 108: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.time:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.StepTime
+	12,  // 109: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.exit_code:type_name -> olcf.s3m.slurm.v0044.ProcessExitCodeVerbose
+	55,  // 110: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.nodes:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.Nodes
+	56,  // 111: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.tasks:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.Tasks
+	57,  // 112: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.cpu:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU
+	58,  // 113: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.step:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.StepInfo
+	59,  // 114: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.task:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.Task
+	52,  // 115: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.max:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max
+	53,  // 116: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max.running:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Array.Limits.Max.Running
+	61,  // 117: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU.requested_frequency:type_name -> olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU.RequestedFrequency
+	6,   // 118: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.StepTime.end:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 119: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.StepTime.start:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	5,   // 120: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU.RequestedFrequency.min:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 121: olcf.s3m.slurm.v0044.SlurmDBJobDescription.Step.CPU.RequestedFrequency.max:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	6,   // 122: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.begin_time:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	5,   // 123: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.distribution_plane_size:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 124: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.priority:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 125: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.time_limit:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 126: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.time_minimum:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	6,   // 127: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.memory_per_cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 128: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.memory_per_node:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 129: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 130: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.fsize:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 131: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.data:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 132: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.stack:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 133: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.core:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 134: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.rss:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 135: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.nproc:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 136: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.nofile:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 137: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.memlock:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 138: olcf.s3m.slurm.v0044.JobSubmitReq.JobDescription.RLimits.as:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	66,  // 139: olcf.s3m.slurm.v0044.DeleteJobResp.Status.error:type_name -> olcf.s3m.slurm.v0044.DeleteJobResp.Status.Error
+	5,   // 140: olcf.s3m.slurm.v0044.DeleteJobResp.Status.job_id:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	67,  // 141: olcf.s3m.slurm.v0044.DeleteJobResp.Status.federation:type_name -> olcf.s3m.slurm.v0044.DeleteJobResp.Status.Federation
+	5,   // 142: olcf.s3m.slurm.v0044.SlurmNodeDescription.Enegery.current_watts:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	6,   // 143: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Defaults.partition_memory_per_cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 144: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Defaults.partition_memory_per_node:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	5,   // 145: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Defaults.time:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 146: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.cpus_per_node:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 147: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.cpus_per_socket:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	6,   // 148: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.partition_memory_per_cpu:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	6,   // 149: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.partition_memory_per_node:type_name -> olcf.s3m.slurm.v0044.Uint64NoVal
+	5,   // 150: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.nodes:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	81,  // 151: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.oversubscribe:type_name -> olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.Oversubscribe
+	5,   // 152: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.time:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 153: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Maximums.over_time_limit:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 154: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Timeouts.resume:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 155: olcf.s3m.slurm.v0044.SlurmPartitionDescription.Timeouts.suspend:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	5,   // 156: olcf.s3m.slurm.v0044.Reservation.PurgeCompleted.time:type_name -> olcf.s3m.slurm.v0044.Uint32NoVal
+	84,  // 157: olcf.s3m.slurm.v0044.SlurmIndirect.Ping:input_type -> google.protobuf.Empty
+	84,  // 158: olcf.s3m.slurm.v0044.SlurmIndirect.GetDiag:input_type -> google.protobuf.Empty
+	26,  // 159: olcf.s3m.slurm.v0044.SlurmIndirect.GetJob:input_type -> olcf.s3m.slurm.v0044.JobIdReq
+	24,  // 160: olcf.s3m.slurm.v0044.SlurmIndirect.GetJobs:input_type -> olcf.s3m.slurm.v0044.JobsReq
+	29,  // 161: olcf.s3m.slurm.v0044.SlurmIndirect.PostJobSubmit:input_type -> olcf.s3m.slurm.v0044.JobSubmitReq
+	31,  // 162: olcf.s3m.slurm.v0044.SlurmIndirect.DeleteJob:input_type -> olcf.s3m.slurm.v0044.DeleteJobReq
+	84,  // 163: olcf.s3m.slurm.v0044.SlurmIndirect.GetNodes:input_type -> google.protobuf.Empty
+	84,  // 164: olcf.s3m.slurm.v0044.SlurmIndirect.GetPartitions:input_type -> google.protobuf.Empty
+	84,  // 165: olcf.s3m.slurm.v0044.SlurmIndirect.GetReservations:input_type -> google.protobuf.Empty
+	36,  // 166: olcf.s3m.slurm.v0044.SlurmIndirect.Ping:output_type -> olcf.s3m.slurm.v0044.PingResp
+	18,  // 167: olcf.s3m.slurm.v0044.SlurmIndirect.GetDiag:output_type -> olcf.s3m.slurm.v0044.DiagResp
+	27,  // 168: olcf.s3m.slurm.v0044.SlurmIndirect.GetJob:output_type -> olcf.s3m.slurm.v0044.JobIdResp
+	25,  // 169: olcf.s3m.slurm.v0044.SlurmIndirect.GetJobs:output_type -> olcf.s3m.slurm.v0044.JobsResp
+	30,  // 170: olcf.s3m.slurm.v0044.SlurmIndirect.PostJobSubmit:output_type -> olcf.s3m.slurm.v0044.JobSubmitResp
+	32,  // 171: olcf.s3m.slurm.v0044.SlurmIndirect.DeleteJob:output_type -> olcf.s3m.slurm.v0044.DeleteJobResp
+	33,  // 172: olcf.s3m.slurm.v0044.SlurmIndirect.GetNodes:output_type -> olcf.s3m.slurm.v0044.NodesResp
+	37,  // 173: olcf.s3m.slurm.v0044.SlurmIndirect.GetPartitions:output_type -> olcf.s3m.slurm.v0044.PartitionsResp
+	39,  // 174: olcf.s3m.slurm.v0044.SlurmIndirect.GetReservations:output_type -> olcf.s3m.slurm.v0044.ReservationsResp
+	166, // [166:175] is the sub-list for method output_type
+	157, // [157:166] is the sub-list for method input_type
+	157, // [157:157] is the sub-list for extension type_name
+	157, // [157:157] is the sub-list for extension extendee
+	0,   // [0:157] is the sub-list for field type_name
 }
 
 func init() { file_proto_slurm_v0044_slurm_proto_init() }
@@ -9119,6 +7965,7 @@ func file_proto_slurm_v0044_slurm_proto_init() {
 	if File_proto_slurm_v0044_slurm_proto != nil {
 		return
 	}
+	file_proto_slurm_v0044_slurm_proto_msgTypes[24].OneofWrappers = []any{}
 	file_proto_slurm_v0044_slurm_proto_msgTypes[30].OneofWrappers = []any{}
 	file_proto_slurm_v0044_slurm_proto_msgTypes[62].OneofWrappers = []any{}
 	type x struct{}

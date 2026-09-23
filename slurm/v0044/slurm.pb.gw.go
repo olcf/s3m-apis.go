@@ -198,13 +198,21 @@ func local_request_SlurmIndirect_GetJob_1(ctx context.Context, marshaler runtime
 	return msg, metadata, err
 }
 
+var filter_SlurmIndirect_GetJobs_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
 func request_SlurmIndirect_GetJobs_0(ctx context.Context, marshaler runtime.Marshaler, client SlurmIndirectClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq emptypb.Empty
+		protoReq JobsReq
 		metadata runtime.ServerMetadata
 	)
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SlurmIndirect_GetJobs_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.GetJobs(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -212,20 +220,34 @@ func request_SlurmIndirect_GetJobs_0(ctx context.Context, marshaler runtime.Mars
 
 func local_request_SlurmIndirect_GetJobs_0(ctx context.Context, marshaler runtime.Marshaler, server SlurmIndirectServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq emptypb.Empty
+		protoReq JobsReq
 		metadata runtime.ServerMetadata
 	)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SlurmIndirect_GetJobs_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
 	msg, err := server.GetJobs(ctx, &protoReq)
 	return msg, metadata, err
 }
 
+var filter_SlurmIndirect_GetJobs_1 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
 func request_SlurmIndirect_GetJobs_1(ctx context.Context, marshaler runtime.Marshaler, client SlurmIndirectClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq emptypb.Empty
+		protoReq JobsReq
 		metadata runtime.ServerMetadata
 	)
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SlurmIndirect_GetJobs_1); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.GetJobs(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -233,9 +255,15 @@ func request_SlurmIndirect_GetJobs_1(ctx context.Context, marshaler runtime.Mars
 
 func local_request_SlurmIndirect_GetJobs_1(ctx context.Context, marshaler runtime.Marshaler, server SlurmIndirectServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq emptypb.Empty
+		protoReq JobsReq
 		metadata runtime.ServerMetadata
 	)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SlurmIndirect_GetJobs_1); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
 	msg, err := server.GetJobs(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -678,7 +706,7 @@ func RegisterSlurmIndirectHandlerServer(ctx context.Context, mux *runtime.ServeM
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/olcf.s3m.slurm.v0044.SlurmIndirect/GetJobs", runtime.WithHTTPPathPattern("/slurm/v0.0.44/jobs"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/olcf.s3m.slurm.v0044.SlurmIndirect/GetJobs", runtime.WithHTTPPathPattern("/slurmdb/v0.0.44/jobs"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1055,7 +1083,7 @@ func RegisterSlurmIndirectHandlerClient(ctx context.Context, mux *runtime.ServeM
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/olcf.s3m.slurm.v0044.SlurmIndirect/GetJobs", runtime.WithHTTPPathPattern("/slurm/v0.0.44/jobs"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/olcf.s3m.slurm.v0044.SlurmIndirect/GetJobs", runtime.WithHTTPPathPattern("/slurmdb/v0.0.44/jobs"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1249,7 +1277,7 @@ var (
 	pattern_SlurmIndirect_GetJob_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "slurm-indirect", "v0.0.44", "job", "job_id"}, ""))
 	pattern_SlurmIndirect_GetJob_1          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"slurm", "v0.0.44", "job", "job_id"}, ""))
 	pattern_SlurmIndirect_GetJobs_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "slurm-indirect", "v0.0.44", "jobs"}, ""))
-	pattern_SlurmIndirect_GetJobs_1         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"slurm", "v0.0.44", "jobs"}, ""))
+	pattern_SlurmIndirect_GetJobs_1         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"slurmdb", "v0.0.44", "jobs"}, ""))
 	pattern_SlurmIndirect_PostJobSubmit_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"api", "slurm-indirect", "v0.0.44", "job", "submit"}, ""))
 	pattern_SlurmIndirect_PostJobSubmit_1   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"slurm", "v0.0.44", "job", "submit"}, ""))
 	pattern_SlurmIndirect_DeleteJob_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "slurm-indirect", "v0.0.44", "job", "job_id"}, ""))
